@@ -1,6 +1,8 @@
+import Container from '@mui/material/Container';
+
 export default function Home() {
   return (
-    <main>
-    </main>
+    <Container maxWidth="lg">
+    </Container>
   );
 }
