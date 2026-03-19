@@ -1,10 +1,11 @@
-import Container from '@mui/material/Container';
 import Hero from '@/components/Hero';
+import About from '@/components/About'; 
 
 export default function Home() {
   return (
-    <Container maxWidth="lg">
+    <main>
       <Hero />
-    </Container>
+      <About />
+    </main>
   );
 }
