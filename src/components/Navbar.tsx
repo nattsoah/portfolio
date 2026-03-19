@@ -112,12 +112,12 @@ const Navbar = () => {
                 onClick={() => scrollToSection(page.id)}
                 sx={{ 
                   my: 2, 
-                  color: 'text.primary', 
+                  color: 'secondary.main', 
                   display: 'block', 
                   mx: 1,
                   transition: 'color 0.3s ease',
                   '&:hover': {
-                    color: 'primary.main',
+                    color: 'text.dark',
                     backgroundColor: 'transparent',
                   }
                 }}
