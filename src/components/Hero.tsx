@@ -9,6 +9,7 @@ import { HERO_DATA } from '@/const/portfolio';
 const Hero = () => {
   return (
     <Box
+      id="hero"
       bgcolor={'background.default'}
       pt={12}
       pb={12}
