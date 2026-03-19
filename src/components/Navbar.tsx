@@ -104,7 +104,7 @@ const Navbar = () => {
         backdropFilter: 'blur(8px)',
         transition: 'all 0.3s ease-in-out',
         top: 0,
-        zIndex: 100
+        zIndex: 1100
       }}
     >
       <Container maxWidth="lg">
