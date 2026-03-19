@@ -2,7 +2,6 @@ export const NAV_LINKS = [
   { name: 'About', id: 'about' },
   { name: 'Skills', id: 'skills' },
   { name: 'Projects', id: 'projects' },
-  { name: 'Contact', id: 'contact' },
 ];
 
 export const CONTACT_INFO = {
