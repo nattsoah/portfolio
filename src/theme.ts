@@ -1,6 +1,14 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
 
+// Extend the TypeText interface to include custom text colors
+declare module '@mui/material/styles' {
+  interface TypeText {
+    dark?: string;
+    light?: string;
+  }
+}
+
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -15,8 +23,10 @@ const theme = createTheme({
       paper: '#f8fafc',
     },
     text: {
-      primary: '#0f172a',
-      secondary: '#475569',
+      primary: '#0f172a', // Light mode text (Slate 900)
+      secondary: '#475569', // Light mode secondary text (Slate 600)
+      dark: '#0f172a',    // Custom dark text color
+      light: '#f8fafc',   // Custom light text color
     },
   },
   typography: {
