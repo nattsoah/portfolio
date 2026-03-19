@@ -19,3 +19,24 @@ export const ABOUT_DATA = {
     { label: 'Technologies Used', value: '5+' },
   ]
 };
+
+export const SKILLS_DATA = [
+  {
+    category: 'Frontend',
+    icon: 'DevicesIcon',
+    description: 'Creating responsive, interactive, and user-friendly interfaces using modern frameworks and libraries.',
+    skills: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Material UI', 'Tailwind CSS', 'Chakra UI', 'Bootstrap']
+  },
+  {
+    category: 'Backend',
+    icon: 'StorageIcon',
+    description: 'Building robust server-side applications, APIs, and managing databases to power web experiences.',
+    skills: ['Node.js', 'Express.js', 'PHP', 'Laravel', 'Python', 'Java']
+  },
+  {
+    category: 'Tools & Others',
+    icon: 'BuildIcon',
+    description: 'Utilizing essential development tools and platforms to streamline workflow and ensure quality.',
+    skills: ['Git', 'GitHub', 'Figma', 'WordPress', 'Vercel']
+  }
+];
