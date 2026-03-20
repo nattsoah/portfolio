@@ -23,14 +23,15 @@ import { useTheme } from '@mui/material/styles';
 import { PROJECTS_DATA } from '@/const/portfolio';
 import { alpha } from '@mui/material/styles';
 
-// Swiper components
+// Swiper components and modules
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper/modules';
+import { Pagination, Autoplay, Navigation, EffectCoverflow } from 'swiper/modules';
 
 // Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import 'swiper/css/effect-coverflow';
 
 const Projects = () => {
   const [open, setOpen] = useState(false);
@@ -43,9 +44,6 @@ const Projects = () => {
 
   const handleOpenMedia = (project: typeof PROJECTS_DATA[0]) => setActiveProject(project);
   const handleCloseMedia = () => setActiveProject(null);
-
-  // Show top 3 projects
-  const featuredProjects = PROJECTS_DATA.slice(0, 3);
 
   // Update ProjectCard to use handleOpenMedia
   const EnhancedProjectCard = ({ project, isModal = false }: { project: typeof PROJECTS_DATA[0], isModal?: boolean }) => (
@@ -245,44 +243,88 @@ const Projects = () => {
               '&:hover': { bgcolor: alpha('#0f172a', 0.05) }
             }}
           >
-            View More
+            View All
           </Button>
         </Box>
 
-        {isMobile ? (
-          <Box sx={{ mx: -2 }}>
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              spaceBetween={20}
-              slidesPerView={1}
-              centeredSlides={true}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-              style={{ paddingBottom: '40px' }}
-            >
-              {featuredProjects.map((project) => (
-                <SwiperSlide key={project.title}>
-                  <Box sx={{ height: '100%', px: 1 }}>
-                    <EnhancedProjectCard project={project} />
-                  </Box>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <style jsx global>{`
-              .swiper-pagination-bullet-active {
-                background: ${theme.palette.primary.main} !important;
-              }
-            `}</style>
-          </Box>
-        ) : (
-          <Grid container spacing={4}>
-            {featuredProjects.map((project) => (
-              <Grid key={project.title} size={{ xs: 12, sm: 6, md: 4 }}>
-                <EnhancedProjectCard project={project} />
-              </Grid>
+        <Box sx={{ 
+          mx: { xs: -2, md: 0 },
+          pb: 8,
+          '& .swiper-slide': {
+            transition: 'all 0.5s ease',
+            opacity: 0.5,
+            transform: 'scale(0.85)',
+          },
+          '& .swiper-slide-active': {
+            opacity: 1,
+            transform: 'scale(1.05)',
+            zIndex: 10
+          },
+          '& .swiper-pagination-bullet': {
+            width: 12,
+            height: 12,
+            bgcolor: 'divider',
+            opacity: 1,
+            transition: 'all 0.3s ease'
+          },
+          '& .swiper-pagination-bullet-active': {
+            width: 32,
+            borderRadius: 6,
+            bgcolor: 'primary.main'
+          }
+        }}>
+          <Swiper
+            modules={[Pagination, Autoplay, Navigation, EffectCoverflow]}
+            effect="coverflow"
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={'auto'}
+            loop={true}
+            autoplay={{ delay: 3500, disableOnInteraction: false }}
+            coverflowEffect={{
+              rotate: 0,
+              stretch: 0,
+              depth: 100,
+              modifier: 2.5,
+              slideShadows: false,
+            }}
+            pagination={{ clickable: true }}
+            navigation={!isMobile}
+            breakpoints={{
+              320: { slidesPerView: 1.1, spaceBetween: 20 },
+              640: { slidesPerView: 1.3, spaceBetween: 30 },
+              1024: { slidesPerView: 2, spaceBetween: 40 }
+            }}
+            style={{ padding: '40px 0' }}
+          >
+            {PROJECTS_DATA.map((project) => (
+              <SwiperSlide key={project.title} style={{ width: isMobile ? '300px' : '400px' }}>
+                <Box sx={{ height: '100%', px: 1 }}>
+                  <EnhancedProjectCard project={project} />
+                </Box>
+              </SwiperSlide>
             ))}
-          </Grid>
-        )}
+          </Swiper>
+          <style jsx global>{`
+            .swiper-button-next, .swiper-button-prev {
+              color: ${theme.palette.primary.main} !important;
+              background: ${alpha(theme.palette.background.paper, 0.8)};
+              width: 50px !important;
+              height: 50px !important;
+              border-radius: 50%;
+              border: 2px solid transparent;
+              &::after { font-size: 20px !important; font-weight: 800; }
+              box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+              transition: all 0.3s ease;
+              padding:10px;
+              &:hover { 
+                background: ${alpha(theme.palette.background.paper, 0.9)}; 
+                border-color: ${theme.palette.divider};
+                transform: scale(1.1);
+              }
+            }
+          `}</style>
+        </Box>
 
         {/* Modal / Dialog for All Projects */}
         <Dialog
