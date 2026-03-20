@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,49 +19,66 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState<string>('');
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
+  // Use a ref to track which sections are currently intersecting
+  const visibleSections = useRef<Record<string, boolean>>({});
 
   useEffect(() => {
-    //Active Section
     const sectionIds = ['hero', ...NAV_LINKS.map(link => link.id)];
     
     const callback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if (entry.target.id === 'hero') {
-            setActiveSection('');
-          } else {
-            setActiveSection(entry.target.id);
-          }
-        }
+        visibleSections.current[entry.target.id] = entry.isIntersecting;
       });
+
+      // Find the most relevant active section
+      // Priority: Last section in the array that is currently visible
+      const currentActive = sectionIds.findLast(id => visibleSections.current[id]);
+      
+      if (currentActive === 'hero' || !currentActive) {
+        setActiveSection('');
+      } else {
+        setActiveSection(currentActive);
+      }
     };
 
     const observer = new IntersectionObserver(callback, {
-      rootMargin: '-30% 0px -60% 0px',
-      threshold: 0
+      // Use a wider margin to detect sections more easily
+      rootMargin: '-20% 0px -20% 0px',
+      threshold: 0.1
     });
 
-    sectionIds.forEach(id => {
-      const element = document.getElementById(id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
+    // Small delay to ensure DOM elements are available
+    const timeoutId = setTimeout(() => {
+      sectionIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          observer.observe(element);
+        }
+      });
+    }, 300);
 
-    //Scroll
     const handleScroll = () => {
       const scrollY = window.scrollY;
       setScrolled(scrollY > 50);
       setShowScrollTop(scrollY > 400);
-      if (scrollY < 10) {
+
+      // Extra check for reaching the bottom of the page
+      const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
+      if (isAtBottom) {
+        setActiveSection(sectionIds[sectionIds.length - 1]);
+      }
+      
+      if (scrollY < 50) {
         setActiveSection('');
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 
     return () => {
+      clearTimeout(timeoutId);
       observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
     };
@@ -78,7 +95,6 @@ const Navbar = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      // Offset for sticky navbar
       const yOffset = -80; 
       const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
