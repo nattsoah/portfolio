@@ -114,3 +114,23 @@ export const PROJECTS_DATA = [
     ],
   },
 ];
+
+export const CERTIFICATES_DATA = [
+  {
+    title: 'Certificate of Co-operative Education',
+    issuer: 'Foxbith Co., Ltd.',
+    date: 'March 2026',
+  },
+  {
+    title: 'Asia Undergraduate Conference on Computing',
+    issuer: 'AUCC',
+    date: 'Feb 2026',
+    image: '/images/certificate/cer-1.png',
+  },
+  {
+    title: 'Information Technology Professionals Examination',
+    issuer: 'NSTDA',
+    date: 'Dec 2024',
+    image: '/images/certificate/cer-2.jpeg',
+  },
+];
