@@ -7,6 +7,15 @@ import Stack from '@mui/material/Stack';
 import { HERO_DATA } from '@/const/portfolio';
 
 const Hero = () => {
+  const scrollToProjects = () => {
+    const element = document.getElementById('projects');
+    if (element) {
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
     <Box
       id="hero"
@@ -62,7 +71,7 @@ const Hero = () => {
               <Button
                 variant="contained"
                 size="large"
-                href={HERO_DATA.ctaLink}
+                onClick={scrollToProjects}
                 sx={{
                   px: 4,
                   py: 1.5,
@@ -136,7 +145,7 @@ const Hero = () => {
             >
               <Box
                 component="img"
-                src="/"
+                src={(HERO_DATA as any).profileImage}
                 alt="Profile"
                 width='100%'
                 height='100%'
@@ -144,7 +153,7 @@ const Hero = () => {
                 border={'4px solid white'}
                 boxShadow={'0 25px 50px -12px rgba(0, 0, 0, 0.25)'}
                 sx={{
-                  objectFit: 'cover',
+                  objectFit: 'contain',
                   animation: 'morph 10s ease-in-out infinite',
                   transition: 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                   cursor: 'pointer',
