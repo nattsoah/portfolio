@@ -33,10 +33,18 @@ const Footer = () => {
           alignItems="center"
         >
           <Box>
-            <Typography variant="h6" color="primary" fontWeight={700} textAlign={{ xs:'center' , sm:'start'}}>
-              {SITE_NAME}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+              <Box
+                component="img"
+                src="/logo.svg"
+                alt="Logo"
+                sx={{ height: 24, mr: 1 }}
+              />
+              <Typography variant="h6" color="primary" fontWeight={700}>
+                {SITE_NAME}
+              </Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary" textAlign={{ xs:'center' , sm:'start'}}>
               © {new Date().getFullYear()} All rights reserved.
             </Typography>
           </Box>
