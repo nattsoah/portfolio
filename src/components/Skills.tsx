@@ -10,6 +10,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 import BuildIcon from '@mui/icons-material/Build';
 import { SKILLS_DATA } from '@/const/portfolio';
 import { SvgIconComponent } from '@mui/icons-material';
+import { alpha } from '@mui/material/styles';
 
 const ICON_MAP: Record<string, SvgIconComponent> = {
   DevicesIcon,
@@ -63,7 +64,7 @@ const Skills = () => {
                       justifyContent='center'
                       flexShrink={0}
                     >
-                      {Icon && <Icon sx={{ color: 'white', fontSize: 22 }} />}
+                      {Icon && <Icon sx={{ color: (theme) => theme.palette.getContrastText(theme.palette.primary.main), fontSize: 22 }} />}
                     </Box>
                     <Typography variant="h5" fontWeight={700} color="text.primary">
                       {category.category}
@@ -93,10 +94,10 @@ const Skills = () => {
                           transition: 'all 0.2s ease',
                           '&:hover': {
                             bgcolor: 'primary.main',
-                            color: 'white',
+                            color: (theme) => theme.palette.getContrastText(theme.palette.primary.main),
                             borderColor: 'primary.main',
                             transform: 'translateY(-2px)',
-                            boxShadow: '0 4px 12px rgba(15,23,42,0.2)',
+                            boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.primary.main, 0.4)}`,
                           },
                         }}
                       />

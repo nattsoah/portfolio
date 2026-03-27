@@ -12,15 +12,20 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { useColorMode } from './ThemeRegistry';
+import { useTheme } from '@mui/material/styles';
 import { NAV_LINKS, SITE_NAME } from '@/const/navigation';
 
 const Navbar = () => {
+  const { mode, toggleColorMode } = useColorMode();
+  const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [activeSection, setActiveSection] = useState<string>('');
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   
-  // Use a ref to track which sections are currently intersecting
   const visibleSections = useRef<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -31,8 +36,6 @@ const Navbar = () => {
         visibleSections.current[entry.target.id] = entry.isIntersecting;
       });
 
-      // Find the most relevant active section
-      // Priority: Last section in the array that is currently visible
       const currentActive = sectionIds.findLast(id => visibleSections.current[id]);
       
       if (currentActive === 'hero' || !currentActive) {
@@ -43,12 +46,10 @@ const Navbar = () => {
     };
 
     const observer = new IntersectionObserver(callback, {
-      // Use a wider margin to detect sections more easily
       rootMargin: '-20% 0px -20% 0px',
       threshold: 0.1
     });
 
-    // Small delay to ensure DOM elements are available
     const timeoutId = setTimeout(() => {
       sectionIds.forEach(id => {
         const element = document.getElementById(id);
@@ -63,7 +64,6 @@ const Navbar = () => {
       setScrolled(scrollY > 50);
       setShowScrollTop(scrollY > 400);
 
-      // Extra check for reaching the bottom of the page
       const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
       if (isAtBottom) {
         setActiveSection(sectionIds[sectionIds.length - 1]);
@@ -116,7 +116,9 @@ const Navbar = () => {
       elevation={0} 
       sx={{ 
         borderBottom: (theme) => scrolled ? `1px solid ${theme.palette.divider}` : 'none', 
-        bgcolor: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.8)', 
+        bgcolor: scrolled 
+          ? (mode === 'light' ? 'rgba(255, 255, 255, 0.95)' : 'rgba(15, 23, 42, 0.95)')
+          : (mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(15, 23, 42, 0.8)'), 
         backdropFilter: 'blur(8px)',
         transition: 'all 0.3s ease-in-out',
         top: 0,
@@ -134,7 +136,7 @@ const Navbar = () => {
               cursor: 'pointer',
               mr: 2,
               '&:hover img': {
-                filter: 'drop-shadow(0 0 4px #00FFFF)'
+                filter: mode === 'light' ? 'drop-shadow(0 0 4px #00FFFF)' : 'drop-shadow(0 0 4px #94a3b8)'
               }
             }}
           >
@@ -149,7 +151,7 @@ const Navbar = () => {
               noWrap
               component="span"
               fontWeight={700}
-              color={'primary.main'}
+              color={'text.primary'}
               sx={{ textDecoration: 'none' }}
             >
               {SITE_NAME}
@@ -220,7 +222,7 @@ const Navbar = () => {
               noWrap
               component="span"
               fontWeight={700}
-              color={'primary.main'}
+              color={'text.primary'}
               sx={{ textDecoration: 'none' }}
             >
               {SITE_NAME}
@@ -228,7 +230,7 @@ const Navbar = () => {
           </Box>
 
           {/* Desktop Menu */}
-          <Box flexGrow={1} display={{ xs: 'none', md: 'flex' }} justifyContent='flex-end' >
+          <Box display={{ xs: 'none', md: 'flex' }} alignItems='center' ml='auto'>
             {NAV_LINKS.map((page) => (
               <Button
                 key={page.name}
@@ -238,7 +240,7 @@ const Navbar = () => {
                   display: 'block',
                   mx: 1,
                   transition: 'all 0.3s ease',
-                  color: activeSection === page.id ? 'primary.main' : 'secondary.main',
+                  color: activeSection === page.id ? 'primary.main' : 'text.secondary',
                   fontWeight: activeSection === page.id ? 700 : 500,
                   position: 'relative',
                   '&:hover': {
@@ -263,6 +265,11 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
+          
+          {/* Theme Toggle Button */}
+          <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
+            {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+          </IconButton>
         </Toolbar>
       </Container>
     </AppBar>
@@ -279,7 +286,7 @@ const Navbar = () => {
         pointerEvents: showScrollTop ? 'auto' : 'none',
         transition: 'all 0.3s ease',
         bgcolor: 'primary.main',
-        color: 'white',
+        color: mode === 'light' ? 'white' : 'text.dark',
         '&:hover': { bgcolor: 'primary.dark', transform: 'scale(1.1)' },
         zIndex: 1300,
       }}

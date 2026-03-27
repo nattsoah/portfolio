@@ -70,7 +70,9 @@ const Projects = () => {
         transition: 'all 0.3s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: '0 12px 32px -8px rgba(15,23,42,0.15)',
+          boxShadow: (theme) => theme.palette.mode === 'light' 
+            ? '0 12px 32px -8px rgba(15,23,42,0.15)' 
+            : '0 12px 32px -8px rgba(0,0,0,0.5)',
         },
       }}
     >
@@ -250,7 +252,7 @@ const Projects = () => {
             sx={{
               fontWeight: 700,
               color: 'primary.main',
-              '&:hover': { bgcolor: alpha('#0f172a', 0.05) }
+              '&:hover': { bgcolor: (theme) => alpha(theme.palette.primary.main, 0.05) }
             }}
           >
             View All

@@ -48,7 +48,7 @@ const CertificateCard = ({ cert, onOpen }: { cert: typeof CERTIFICATES_DATA[0], 
         position='relative'
         borderRadius={3}
         overflow='hidden'
-        bgcolor='#f1f5f9'
+        bgcolor={theme.palette.mode === 'light' ? '#f1f5f9' : '#1e293b'}
         mb={3}
         sx={{ aspectRatio: '4/3' }}
       >
@@ -92,13 +92,13 @@ const CertificateCard = ({ cert, onOpen }: { cert: typeof CERTIFICATES_DATA[0], 
                 px={3}
                 py={1.5}
                 borderRadius={10}
-                bgcolor='white'
+                bgcolor='background.paper'
                 color='primary.main'
                 display='flex'
                 alignItems='center'
                 gap={1}
                 fontWeight={700}
-                boxShadow={'0 8px 16px rgba(0,0,0,0.2)'}
+                boxShadow={(theme) => theme.palette.mode === 'light' ? '0 8px 16px rgba(0,0,0,0.2)' : '0 8px 16px rgba(0,0,0,0.5)'}
               >
                 <FullscreenIcon fontSize="small" />
                 View Full
@@ -197,8 +197,8 @@ const Certificates = () => {
         height='100%'
         zIndex={0}
         sx={{
-          opacity: 0.03,
-          backgroundImage: 'radial-gradient(#0f172a 0.5px, transparent 0.5px)',
+          opacity: theme.palette.mode === 'light' ? 0.03 : 0.05,
+          backgroundImage: `radial-gradient(${theme.palette.text.primary} 0.5px, transparent 0.5px)`,
           backgroundSize: '24px 24px',
         }}
       />
@@ -271,23 +271,23 @@ const Certificates = () => {
           PaperProps={{
             sx: {
               borderRadius: 4,
-              bgcolor: 'background.default',
+              bgcolor: 'background.paper',
               overflow: 'hidden',
-              boxShadow: '0 32px 64px -16px rgba(0,0,0,0.3)'
+              boxShadow: theme.palette.mode === 'light' ? '0 32px 64px -16px rgba(0,0,0,0.3)' : '0 32px 64px -16px rgba(0,0,0,0.7)'
             }
           }}
         >
-          <Box position='relative' bgcolor='#f8fafc'>
+          <Box position='relative' bgcolor='background.paper'>
             <IconButton
               onClick={() => setSelectedImage(null)}
               sx={{
                 position: 'absolute',
                 top: 16,
                 right: 16,
-                bgcolor: 'white',
+                bgcolor: 'background.default',
                 color: 'text.primary',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                '&:hover': { bgcolor: '#f1f5f9' },
+                boxShadow: theme.palette.mode === 'light' ? '0 4px 12px rgba(0,0,0,0.1)' : '0 4px 12px rgba(0,0,0,0.4)',
+                '&:hover': { bgcolor: 'background.paper' },
                 zIndex: 10
               }}
             >

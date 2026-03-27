@@ -101,9 +101,9 @@ const Hero = () => {
               height={100}
               zIndex={0}
               sx={{
-                backgroundImage: 'radial-gradient(circle, #0f172a 1px, transparent 1px)',
+                backgroundImage: (theme) => `radial-gradient(circle, ${theme.palette.text.primary} 1px, transparent 1px)`,
                 backgroundSize: '15px 15px',
-                opacity: 0.2,
+                opacity: (theme) => theme.palette.mode === 'light' ? 0.2 : 0.1,
               }}
             />
 
@@ -150,8 +150,8 @@ const Hero = () => {
                 width='100%'
                 height='100%'
                 borderRadius={'50% 50% 30% 70% / 50% 30% 70% 50%'}
-                border={'4px solid white'}
-                boxShadow={'0 25px 50px -12px rgba(0, 0, 0, 0.25)'}
+                border={(theme) => `4px solid ${theme.palette.background.default}`}
+                boxShadow={(theme) => theme.palette.mode === 'light' ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' : '0 25px 50px -12px rgba(0, 0, 0, 0.6)'}
                 sx={{
                   objectFit: 'contain',
                   animation: 'morph 10s ease-in-out infinite',
@@ -173,11 +173,12 @@ const Hero = () => {
               height={60}
               bgcolor='background.paper'
               borderRadius='12px'
-              boxShadow={'0 10px 15px -3px rgba(0,0,0,0.1)'}
+              boxShadow={(theme) => theme.palette.mode === 'light' ? '0 10px 15px -3px rgba(0,0,0,0.1)' : '0 10px 15px -3px rgba(0,0,0,0.5)'}
               display='flex'
               alignItems='center'
               justifyContent='center'
-              border={'1px solid #e2e8f0'}
+              border={'1px solid'}
+              borderColor={'divider'}
               zIndex={3}
               sx={{
                 animation: 'float 6s ease-in-out infinite',
