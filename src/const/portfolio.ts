@@ -80,6 +80,43 @@ export const PROJECTS_DATA = [
     demo: 'https://test-2-questionaire-form.vercel.app/',
   },
   {
+    title: 'B2B Platform',
+    type: 'Asset Management System',
+    description: 'Internship: Bright platform monorepo including webs and APIs used across 4 countries. Responsible for developing and fixing bugs, such as creating data mappings of country locations and more..',
+    tags: ['React', 'Javascript', 'Material-UI', 'Algolia', 'Express.js'],
+  },
+  {
+    title: 'Personnel management system for academic institutions',
+    type: 'HRMS & Asset Management System',
+    description: 'Internship: Responsible for developing features and fixing bugs, such as create profile pages, employee search filters, handling file formatting, validating form inputs, and more.',
+    tags: ['Next.js', 'Typescript', 'Internal Library'],
+  },
+  {
+    title: 'A personal care product brand',
+    type: 'E-commerce & OMS-CMS',
+    description: 'Internship: Responsible for developing responsive homepage designs and fixing bugs such as data mapping accuracy, input validation, and improving overall UX performance.',
+    tags: ['Next.js', 'Typescript'],
+  },
+  {
+    title: 'Cibes',
+    type: 'E-commerce & CMS',
+    description: 'Internship: A home elevator product showcase platform. Responsible for converting HTML files into a wordpress theme, using Tailwind CSS for layout design and PHP to integrate dynamic content through Advanced Custom Fields (ACF).',
+    tags: ['Wordpress', 'PHP', 'ACF', 'Tailwind CSS'],
+  },
+  {
+    title: 'NAMSANG CHAKKOL',
+    type: 'E-commerce & Service',
+    description: 'Internship: A machinery rental and sales service website. Responsible for SEO optimization, including creating product pages and developing key components such as breadcrumbs, a category sidebar, and a product grid.',
+    tags: ['Next.js', 'Sanity', 'Javascript'],
+    demo: 'https://www.namsang.co.th/products/',
+  },
+  {
+    title: 'Design system for operation digital platform',
+    type: 'Internal UI-Library',
+    description: 'Internship: Responsible for developing reusable components in alignment with the design system such as the sidebar and form inputs',
+    tags: ['Typescript', 'chakra-ui'],
+  },
+  {
     title: 'Trigonometry Learning Web App',
     type: 'E-learning',
     description: 'Final Project: A comprehensive web application designed to support high school trigonometry learning',
@@ -105,13 +142,39 @@ export const PROJECTS_DATA = [
     ],
   },
   {
-    title: 'E-Books Website',
-    type: 'E-commerce',
-    description: 'Mini Project: A fully responsive e-commerce platform for browsing and purchasing e-books.',
-    image: '/images/ebooks.png',
-    tags: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'],
-    github: 'https://github.com/natthariga/E-books',
-    demo: 'https://natthariga.github.io/E-books/',
+    title: 'Tomato Book',
+    type: 'Mobile Application',
+    description: 'A platform for user convenience, allowing users to read e-books anytime and anywhere. The system stores books in a systematic format for easy searching and retrieval.',
+    image: '/images/tomato/tomato-started.png',
+    tags: ['Kotlin', 'Node.js', 'Express.js', 'MySQL'],
+    previewImages: [
+      {
+        category: 'User',
+        images: [
+          '/images/tomato/tomato-user-home.png',
+          '/images/tomato/tomato-user-library.png',
+          '/images/tomato/tomato-user-category.png',
+          '/images/tomato/tomato-user-book_detail.png',
+          '/images/tomato/tomato-user-payment.png',
+          '/images/tomato/tomato-user-payment_success.png',
+          '/images/tomato/tomato-user-read.png',
+          '/images/tomato/tomato-user-setting.png',
+          '/images/tomato/tomato-user-edit.png',
+          '/images/tomato/tomato-user-recovery.png',
+        ]
+      },
+      {
+        category: 'Admin',
+        images: [
+          '/images/tomato/tomato-admin-panel.png',
+          '/images/tomato/tomato-admin-user.png',
+          '/images/tomato/tomato-admin-add.png',
+          '/images/tomato/tomato-admin-save.png',
+          '/images/tomato/tomato-admin-trash.png',
+          '/images/tomato/tomato-admin-edit.png',
+        ]
+      }
+    ],
   },
   {
     title: 'Condo Booking Web App',
@@ -139,42 +202,14 @@ export const PROJECTS_DATA = [
     ],
   },
   {
-    title: 'B2B Platform',
-    type: 'Asset Management System',
-    description: 'Internship: Bright platform monorepo including webs and APIs used across 4 countries. Responsible for developing and fixing bugs, such as creating data mappings of country locations and more..',
-    tags: ['React', 'Javascript', 'Material-UI', 'Algolia', 'Express.js'],
-  },
-  {
-    title: 'Personnel management system for academic institutions',
-    type: 'HRMS & Asset Management System',
-    description: 'Internship: Responsible for developing features and fixing bugs, such as create profile pages, employee search filters, handling file formatting, validating form inputs, and more.',
-    tags: ['Next.js', 'Typescript' , 'Internal Library'],
-  },
-  {
-    title: 'A personal care product brand',
-    type: 'E-commerce & OMS-CMS',
-    description: 'Internship: Responsible for developing responsive homepage designs and fixing bugs such as data mapping accuracy, input validation, and improving overall UX performance.',
-    tags: ['Next.js', 'Typescript'],
-  },
-  {
-    title: 'Cibes',
-    type: 'E-commerce & CMS',
-    description: 'Internship: A home elevator product showcase platform. Responsible for converting HTML files into a wordpress theme, using Tailwind CSS for layout design and PHP to integrate dynamic content through Advanced Custom Fields (ACF).',
-    tags: ['Wordpress', 'PHP', 'ACF' , 'Tailwind CSS'],
-  },
-  {
-    title: 'NAMSANG CHAKKOL',
-    type: 'E-commerce & Service',
-    description: 'Internship: A machinery rental and sales service website. Responsible for SEO optimization, including creating product pages and developing key components such as breadcrumbs, a category sidebar, and a product grid.',
-    tags: ['Next.js', 'Sanity', 'Javascript'],
-    demo: 'https://www.namsang.co.th/products/',
-  },
-  {
-    title: 'Design system for operation digital platform',
-    type: 'Internal UI-Library',
-    description: 'Internship: Responsible for developing reusable components in alignment with the design system such as the sidebar and form inputs',
-    tags: ['Typescript', 'chakra-ui'],
-  },
+    title: 'E-Books Website',
+    type: 'E-commerce',
+    description: 'Mini Project: A fully responsive e-commerce platform for browsing and purchasing e-books.',
+    image: '/images/ebooks.png',
+    tags: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'],
+    github: 'https://github.com/natthariga/E-books',
+    demo: 'https://natthariga.github.io/E-books/',
+  }
 ];
 
 export const CERTIFICATES_DATA = [
