@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import CloseIcon from '@mui/icons-material/Close';
@@ -35,15 +37,23 @@ import 'swiper/css/effect-coverflow';
 
 const Projects = () => {
   const [open, setOpen] = useState(false);
-  const [activeProject, setActiveProject] = useState<typeof PROJECTS_DATA[0] | null>(null);
+  const [activeProject, setActiveProject] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleOpenMedia = (project: typeof PROJECTS_DATA[0]) => setActiveProject(project);
+  const handleOpenMedia = (project: any) => {
+    setActiveProject(project);
+    setActiveTab(0);
+  };
   const handleCloseMedia = () => setActiveProject(null);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
 
   // Update ProjectCard to use handleOpenMedia
   const EnhancedProjectCard = ({ project, isModal = false }: { project: typeof PROJECTS_DATA[0], isModal?: boolean }) => (
@@ -388,7 +398,7 @@ const Projects = () => {
                     {activeProject.title}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    {activeProject.type} Showcase
+                    {activeProject.description}
                   </Typography>
                 </Box>
                 <IconButton onClick={handleCloseMedia} size="small">
@@ -398,41 +408,101 @@ const Projects = () => {
 
               {/* Content */}
               <Box p={{ xs: 2, md: 4 }} bgcolor='background.paper'>
+                {activeProject.previewImages && activeProject.previewImages.length > 0 && typeof activeProject.previewImages[0] === 'object' && (
+                  <Box mb={3} borderBottom={1} borderColor="divider">
+                    <Tabs 
+                      value={activeTab} 
+                      onChange={handleTabChange} 
+                      variant="scrollable"
+                      scrollButtons="auto"
+                      sx={{
+                        '& .MuiTabs-indicator': {
+                          height: 3,
+                          borderRadius: '3px 3px 0 0',
+                        },
+                        '& .MuiTab-root': {
+                          fontWeight: 700,
+                          textTransform: 'none',
+                          fontSize: '0.9rem',
+                          minWidth: 120,
+                          color: 'text.secondary',
+                          '&.Mui-selected': {
+                            color: 'primary.main',
+                          }
+                        }
+                      }}
+                    >
+                      {activeProject.previewImages.map((category: any, idx: number) => (
+                        <Tab key={idx} label={category.category} />
+                      ))}
+                    </Tabs>
+                  </Box>
+                )}
+
                 <Box
                   borderRadius={2}
                   overflow='auto'
-                  maxHeight='80vh'
+                  maxHeight='75vh'
                   pr={1}
+                  pb={8}
                   sx={{
                     '&::-webkit-scrollbar': { width: '8px' },
                     '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(0,0,0,0.1)', borderRadius: '4px' }
                   }}>
-                  {Array.isArray((activeProject as any).previewImages) ? (
-                    <ImageList
-                      variant="masonry"
-                      cols={isMobile ? 1 : 3}
-                      gap={16}
-                    >
-                      {(activeProject as any).previewImages.map((url: string, index: number) => (
-                        <ImageListItem key={index}>
-                          <Box
-                            component="img"
-                            src={url}
-                            alt={`Preview ${index + 1}`}
-                            loading="lazy"
-                            width='100%'
-                            borderRadius={2}
-                            boxShadow={'0 4px 12px rgba(0,0,0,0.08)'}
-                            display='block'
-                          />
-                        </ImageListItem>
-                      ))}
-                    </ImageList>
+                  {Array.isArray(activeProject.previewImages) ? (
+                    typeof activeProject.previewImages[0] === 'string' ? (
+                      <ImageList
+                        variant="masonry"
+                        cols={isMobile ? 1 : 3}
+                        gap={16}
+                        sx={{ mb: 2 }}
+                      >
+                        {activeProject.previewImages.map((url: string, index: number) => (
+                          <ImageListItem key={index}>
+                            <Box
+                              component="img"
+                              src={url}
+                              alt={`Preview ${index + 1}`}
+                              loading="lazy"
+                              width='100%'
+                              borderRadius={2}
+                              boxShadow={'0 4px 12px rgba(0,0,0,0.08)'}
+                              display='block'
+                            />
+                          </ImageListItem>
+                        ))}
+                      </ImageList>
+                    ) : (
+                      // Categorized Images
+                      <ImageList
+                        variant="masonry"
+                        cols={isMobile ? 1 : 2}
+                        gap={24}
+                        sx={{ mb: 2 }}
+                      >
+                        {activeProject.previewImages[activeTab]?.images.map((url: string, index: number) => (
+                          <ImageListItem key={index}>
+                            <Box
+                              component="img"
+                              src={url}
+                              alt={`${activeProject.previewImages[activeTab].category} Preview ${index + 1}`}
+                              loading="lazy"
+                              width='100%'
+                              borderRadius={2}
+                              boxShadow={'0 8px 24px rgba(0,0,0,0.12)'}
+                              display='block'
+                              border={'1px solid'}
+                              borderColor='divider'                      
+                            />
+                          </ImageListItem>
+                        ))}
+                      </ImageList>
+                    )
                   ) : (
-                    (activeProject as any).previewImage ? (
+                    activeProject.previewImage ? (
                       <Box
                         component="img"
-                        src={(activeProject as any).previewImage}
+                        src={activeProject.previewImage}
                         width='100%'
                         height='auto'
                         borderRadius={2}
@@ -440,7 +510,7 @@ const Projects = () => {
                         display='block'
                         margin='auto'
                         maxWidth='900px'
-                        sx={{ objectFit: 'contain' }}
+                        sx={{ objectFit: 'contain', mb: 4 }}
                       />
                     ) : (
                       <Box py={4} textAlign='center'>
@@ -448,6 +518,8 @@ const Projects = () => {
                       </Box>
                     )
                   )}
+                  {/* space */}
+                  <Box height={20} />
                 </Box>
               </Box>
             </Box>
