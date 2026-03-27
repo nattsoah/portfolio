@@ -82,22 +82,32 @@ export const PROJECTS_DATA = [
   {
     title: 'Trigonometry Learning Web App',
     type: 'E-learning',
-    description: 'A comprehensive web application designed to support high school trigonometry learning, featuring interactive modules and real-time feedback. (In Development)',
-    image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=800',
+    description: 'Final Project: A comprehensive web application designed to support high school trigonometry learning',
+    image: '/images/trigo.png',
     tags: ['Vite', 'Tailwind CSS', 'PHP', 'MySQL', 'REST API'],
     previewImages: [
-      'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?auto=format&fit=crop&q=80&w=1200',
+      {
+        category: 'User',
+        images: [
+          '/images/trigo/trigo-student-home.png',
+          '/images/trigo/trio-student-chapter.png',
+          '/images/trigo/trigo-student-evolution.png',
+        ]
+      },
+      {
+        category: 'Admin',
+        images: [
+          '/images/trigo/trigo-teacher-dashboard.png',
+          '/images/trigo/trigo-teacher-evolution.png',
+          '/images/trigo/trigo-teacher-classroom.png',
+        ]
+      }
     ],
   },
   {
     title: 'E-Books Website',
     type: 'E-commerce',
-    description: 'a responsive e-commerce for browsing and purchasing e-books. Built using HTML, CSS, JavaScript, and Bootstrap for styling and responsive design for desktop and mobile devices.',
+    description: 'Mini Project: A fully responsive e-commerce platform for browsing and purchasing e-books.',
     image: '/images/ebooks.png',
     tags: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'],
     github: 'https://github.com/natthariga/E-books',
@@ -106,13 +116,64 @@ export const PROJECTS_DATA = [
   {
     title: 'Condo Booking Web App',
     type: 'Web Application',
-    description: 'A web application built with Laravel, PHP, MySQL, and Bootstrap. Developed as my Second-Year Project.',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800',
+    description: 'Mini Project: A condo booking system built with Laravel.',
+    image: '/images/selena/selena-login.png',
     tags: ['Laravel', 'PHP', 'MySQL', 'Bootstrap'],
     previewImages: [
-      'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1200',
+      {
+        category: 'User',
+        images: [
+          '/images/selena/selena-home.png',
+          '/images/selena/selena-room.png',
+          '/images/selena/selena-room-detail.png',
+        ]
+      },
+      {
+        category: 'Admin',
+        images: [
+          '/images/selena/selena-admin-room.png',
+          '/images/selena/selena-admin-edit.png',
+          '/images/selena/selena-admin-request.png',
+        ]
+      }
     ],
+  },
+  {
+    title: 'B2B Platform',
+    type: 'Asset Management System',
+    description: 'Internship: Bright platform monorepo including webs and APIs used across 4 countries. Responsible for developing and fixing bugs, such as creating data mappings of country locations and more..',
+    tags: ['React', 'Javascript', 'Material-UI', 'Algolia', 'Express.js'],
+  },
+  {
+    title: 'Personnel management system for academic institutions',
+    type: 'HRMS & Asset Management System',
+    description: 'Internship: Responsible for developing features and fixing bugs, such as create profile pages, employee search filters, handling file formatting, validating form inputs, and more.',
+    tags: ['Next.js', 'Typescript' , 'Internal Library'],
+  },
+  {
+    title: 'A personal care product brand',
+    type: 'E-commerce & OMS-CMS',
+    description: 'Internship: Responsible for developing responsive homepage designs and fixing bugs such as data mapping accuracy, input validation, and improving overall UX performance.',
+    tags: ['Next.js', 'Typescript'],
+  },
+  {
+    title: 'Cibes',
+    type: 'E-commerce & CMS',
+    description: 'Internship: A home elevator product showcase platform. Responsible for converting HTML files into a wordpress theme, using Tailwind CSS for layout design and PHP to integrate dynamic content through Advanced Custom Fields (ACF).',
+    tags: ['Wordpress', 'PHP', 'ACF' , 'Tailwind CSS'],
+  },
+  {
+    title: 'NAMSANG CHAKKOL',
+    type: 'E-commerce & Service',
+    description: 'Internship: A machinery rental and sales service website. Responsible for SEO optimization, including creating product pages and developing key components such as breadcrumbs, a category sidebar, and a product grid.',
+    tags: ['Next.js', 'Sanity', 'Javascript'],
+    demo: 'https://www.namsang.co.th/products/',
+  },
+  {
+    title: 'Design system for operation digital platform',
+    type: 'Internal UI-Library',
+    description: 'Internship: Responsible for developing reusable components in alignment with the design system such as the sidebar and form inputs',
+    tags: ['Typescript', 'chakra-ui'],
   },
 ];
 
