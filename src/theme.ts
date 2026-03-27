@@ -1,5 +1,5 @@
 'use client';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeOptions } from '@mui/material/styles';
 
 // Extend the TypeText interface to include custom text colors
 declare module '@mui/material/styles' {
@@ -9,25 +9,26 @@ declare module '@mui/material/styles' {
   }
 }
 
-const theme = createTheme({
+export const getThemeOptions = (mode: 'light' | 'dark'): ThemeOptions => ({
   palette: {
-    mode: 'light',
+    mode,
     primary: {
-      main: '#0f172a', // Slate 900
+      main: mode === 'light' ? '#0f172a' : '#94a3b8', // Slate 900 : Slate 400
     },
     secondary: {
-      main: '#64748b', // Slate 500
+      main: mode === 'light' ? '#64748b' : '#94a3b8', // Slate 500 : Slate 400
     },
     background: {
-      default: '#ffffff',
-      paper: '#f8fafc',
+      default: mode === 'light' ? '#ffffff' : '#0f172a', // White : Slate 900
+      paper: mode === 'light' ? '#f8fafc' : '#1e293b',   // Slate 50 : Slate 800
     },
     text: {
-      primary: '#0f172a', // Light mode text (Slate 900)
-      secondary: '#475569', // Light mode secondary text (Slate 600)
-      dark: '#0f172a',    // Custom dark text color
-      light: '#f8fafc',   // Custom light text color
+      primary: mode === 'light' ? '#0f172a' : '#f8fafc', // Slate 900 : Slate 50
+      secondary: mode === 'light' ? '#475569' : '#94a3b8', // Slate 600 : Slate 400
+      dark: '#0f172a',
+      light: '#f8fafc',
     },
+    divider: mode === 'light' ? '#e2e8f0' : '#334155', // Slate 200 : Slate 700
   },
   typography: {
     fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
@@ -75,11 +76,22 @@ const theme = createTheme({
       },
       styleOverrides: {
         root: {
-          border: '1px solid #e2e8f0',
+          border: '1px solid',
+          borderColor: mode === 'light' ? '#e2e8f0' : '#334155',
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(15, 23, 42, 0.8)',
+          color: mode === 'light' ? '#0f172a' : '#f8fafc',
+        }
+      }
+    }
   },
 });
+
+const theme = (mode: 'light' | 'dark') => createTheme(getThemeOptions(mode));
 
 export default theme;

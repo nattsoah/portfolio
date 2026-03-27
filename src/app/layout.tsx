@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import theme from '@/theme';
 import "./globals.css";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ThemeRegistry from '@/components/ThemeRegistry';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,25 +30,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AppRouterCacheProvider options={{ key: 'css' }}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: '100vh',
-              }}
-            >
-              <Navbar />
-              <Toolbar />
-              <Box component="main" sx={{ flexGrow: 1 }}>
-                {children}
-              </Box>
-              <Footer />
+        <ThemeRegistry>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: '100vh',
+            }}
+          >
+            <Navbar />
+            <Toolbar />
+            <Box component="main" sx={{ flexGrow: 1 }}>
+              {children}
             </Box>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+            <Footer />
+          </Box>
+        </ThemeRegistry>
       </body>
     </html>
   );

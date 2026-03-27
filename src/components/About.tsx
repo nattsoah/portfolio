@@ -54,10 +54,11 @@ const About = () => {
                       p: 4,
                       textAlign: 'center',
                       transition: 'all 0.3s ease',
-                      border: '1px solid #e2e8f0',
                       '&:hover': {
                         transform: 'translateY(-5px)',
-                        boxShadow: '0 10px 30px -5px rgba(0,0,0,0.1)',
+                        boxShadow: (theme) => theme.palette.mode === 'light' 
+                          ? '0 10px 30px -5px rgba(0,0,0,0.1)' 
+                          : '0 10px 30px -5px rgba(0,0,0,0.5)',
                         borderColor: 'primary.main',
                       },
                     }}
