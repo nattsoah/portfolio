@@ -126,19 +126,35 @@ const Navbar = () => {
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           {/* Desktop Logo */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="span"
+          <Box 
             onClick={scrollToTop}
-            mr={2}
-            display={{ xs: 'none', md: 'flex' }}
-            fontWeight={700}
-            color={'primary.main'}
-            sx={{ textDecoration: 'none', cursor: 'pointer' }}
+            sx={{ 
+              display: { xs: 'none', md: 'flex' }, 
+              alignItems: 'center', 
+              cursor: 'pointer',
+              mr: 2,
+              '&:hover img': {
+                filter: 'drop-shadow(0 0 4px #00FFFF)'
+              }
+            }}
           >
-            {SITE_NAME}
-          </Typography>
+            <Box
+              component="img"
+              src="/logo.svg"
+              alt="Logo"
+              sx={{ height: 32, mr: 1, transition: 'filter 0.3s ease' }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="span"
+              fontWeight={700}
+              color={'primary.main'}
+              sx={{ textDecoration: 'none' }}
+            >
+              {SITE_NAME}
+            </Typography>
+          </Box>
 
           {/* Mobile Menu */}
           <Box flexGrow={1} display={{ xs: 'flex', md: 'none' }}>
@@ -183,20 +199,33 @@ const Navbar = () => {
           </Box>
 
           {/* Mobile Logo */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="span"
+          <Box 
             onClick={scrollToTop}
-            mr={2}
-            display={{ xs: 'flex', md: 'none' }}
-            flexGrow={1}
-            fontWeight={700}
-            color={'primary.main'}
-            sx={{ textDecoration: 'none', cursor: 'pointer' }}
+            sx={{ 
+              display: { xs: 'flex', md: 'none' }, 
+              alignItems: 'center', 
+              cursor: 'pointer',
+              flexGrow: 1,
+              mr: 2
+            }}
           >
-            {SITE_NAME}
-          </Typography>
+            <Box
+              component="img"
+              src="/logo.svg"
+              alt="Logo"
+              sx={{ height: 28, mr: 1 }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="span"
+              fontWeight={700}
+              color={'primary.main'}
+              sx={{ textDecoration: 'none' }}
+            >
+              {SITE_NAME}
+            </Typography>
+          </Box>
 
           {/* Desktop Menu */}
           <Box flexGrow={1} display={{ xs: 'none', md: 'flex' }} justifyContent='flex-end' >
