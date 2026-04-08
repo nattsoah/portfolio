@@ -38,7 +38,7 @@ export const SKILLS_DATA = [
     category: 'Tools & Others',
     icon: 'BuildIcon',
     description: 'Utilizing essential development tools and platforms to streamline workflow and ensure quality.',
-    skills: ['Git', 'GitHub', 'Figma', 'WordPress', 'Vercel']
+    skills: ['Git', 'GitHub', 'Figma', 'WordPress', 'Vercel', 'Claude Code', 'Gemini CLI']
   }
 ];
 
@@ -122,6 +122,7 @@ export const PROJECTS_DATA = [
     description: 'Final Project: A comprehensive web application designed to support high school trigonometry learning',
     image: '/images/trigo.png',
     tags: ['Vite', 'Tailwind CSS', 'PHP', 'MySQL', 'REST API'],
+    demo: 'https://itweb0867.cpkku.com/',
     previewImages: [
       {
         category: 'User',
