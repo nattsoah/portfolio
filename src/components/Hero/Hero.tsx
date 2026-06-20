@@ -4,9 +4,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { SxProps, Theme } from '@mui/material/styles';
+import Image from 'next/image';
 import { HERO_DATA } from '@/const/portfolio';
 
-const Hero = () => {
+interface HeroProps {
+  sx?: SxProps<Theme>;
+}
+
+export const Hero = ({ sx }: HeroProps) => {
   const scrollToProjects = () => {
     const element = document.getElementById('projects');
     if (element) {
@@ -19,13 +25,13 @@ const Hero = () => {
   return (
     <Box
       id="hero"
-      bgcolor={'background.default'}
+      bgcolor='background.default'
       pt={12}
       pb={12}
       display='flex'
       alignItems='center'
       minHeight='70vh'
-      sx={{ overflow: 'hidden' }}
+      sx={{ overflow: 'hidden', ...sx }}
     >
       <Container maxWidth="lg">
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="center" justifyContent="space-between">
@@ -118,6 +124,10 @@ const Hero = () => {
                 opacity: 0.05,
                 animation: 'morph 12s ease-in-out infinite',
                 animationDelay: '2s',
+                '@keyframes morph': {
+                  '0%, 100%': { borderRadius: '50% 50% 30% 70% / 50% 30% 70% 50%' },
+                  '50%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
+                }
               }}
             />
 
@@ -144,24 +154,34 @@ const Hero = () => {
               }}
             >
               <Box
-                component="img"
-                src={(HERO_DATA as any).profileImage}
-                alt="Profile"
+                position='relative'
                 width='100%'
                 height='100%'
-                borderRadius={'50% 50% 30% 70% / 50% 30% 70% 50%'}
-                border={(theme) => `4px solid ${theme.palette.background.default}`}
-                boxShadow={(theme) => theme.palette.mode === 'light' ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' : '0 25px 50px -12px rgba(0, 0, 0, 0.6)'}
                 sx={{
-                  objectFit: 'contain',
+                  borderRadius: '50% 50% 30% 70% / 50% 30% 70% 50%',
+                  border: (theme) => `4px solid ${theme.palette.background.default}`,
+                  boxShadow: (theme) => theme.palette.mode === 'light' 
+                    ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
+                    : '0 25px 50px -12px rgba(0, 0, 0, 0.6)',
+                  overflow: 'hidden',
+                  aspectRatio: '1',
+                  cursor: 'pointer',
                   animation: 'morph 10s ease-in-out infinite',
                   transition: 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                  cursor: 'pointer',
                   '&:hover': {
                     transform: 'scale(1.05) rotate(2deg)',
                   },
                 }}
-              />
+              >
+                <Image
+                  src={HERO_DATA.profileImage}
+                  alt="Profile"
+                  fill
+                  sizes="320px"
+                  style={{ objectFit: 'cover' }}
+                  priority
+                />
+              </Box>
             </Box>
 
             {/* Floating Tech */}
@@ -173,7 +193,9 @@ const Hero = () => {
               height={60}
               bgcolor='background.paper'
               borderRadius='12px'
-              boxShadow={(theme) => theme.palette.mode === 'light' ? '0 10px 15px -3px rgba(0,0,0,0.1)' : '0 10px 15px -3px rgba(0,0,0,0.5)'}
+              boxShadow={(theme) => theme.palette.mode === 'light' 
+                ? '0 10px 15px -3px rgba(0,0,0,0.1)' 
+                : '0 10px 15px -3px rgba(0,0,0,0.5)'}
               display='flex'
               alignItems='center'
               justifyContent='center'

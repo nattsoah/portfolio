@@ -14,13 +14,17 @@ import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { useColorMode } from './ThemeRegistry';
-import { useTheme } from '@mui/material/styles';
+import { SxProps, Theme } from '@mui/material/styles';
+import Image from 'next/image';
+import { useColorMode } from '@/components/ThemeRegistry';
 import { NAV_LINKS, SITE_NAME } from '@/const/navigation';
 
-const Navbar = () => {
+interface NavbarProps {
+  sx?: SxProps<Theme>;
+}
+
+export const Navbar = ({ sx }: NavbarProps) => {
   const { mode, toggleColorMode } = useColorMode();
-  const theme = useTheme();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [activeSection, setActiveSection] = useState<string>('');
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -122,7 +126,8 @@ const Navbar = () => {
         backdropFilter: 'blur(8px)',
         transition: 'all 0.3s ease-in-out',
         top: 0,
-        zIndex: 1100
+        zIndex: 1100,
+        ...sx
       }}
     >
       <Container maxWidth="lg">
@@ -136,16 +141,20 @@ const Navbar = () => {
               cursor: 'pointer',
               mr: 2,
               '&:hover img': {
-                filter: mode === 'light' ? 'drop-shadow(0 0 4px #00FFFF)' : 'drop-shadow(0 0 4px #94a3b8)'
+                filter: (theme) => theme.palette.mode === 'light' 
+                  ? `drop-shadow(0 0 4px ${theme.palette.primary.main})` 
+                  : `drop-shadow(0 0 4px ${theme.palette.secondary.main})`
               }
             }}
           >
-            <Box
-              component="img"
-              src="/logo.svg"
-              alt="Logo"
-              sx={{ height: 32, mr: 1, transition: 'filter 0.3s ease' }}
-            />
+            <Box sx={{ position: 'relative', width: 32, height: 32, mr: 1 }}>
+              <Image
+                src="/logo.svg"
+                alt="Logo"
+                fill
+                style={{ objectFit: 'contain', transition: 'filter 0.3s ease' }}
+              />
+            </Box>
             <Typography
               variant="h6"
               noWrap
@@ -211,12 +220,14 @@ const Navbar = () => {
               mr: 2
             }}
           >
-            <Box
-              component="img"
-              src="/logo.svg"
-              alt="Logo"
-              sx={{ height: 28, mr: 1 }}
-            />
+            <Box sx={{ position: 'relative', width: 28, height: 28, mr: 1 }}>
+              <Image
+                src="/logo.svg"
+                alt="Logo"
+                fill
+                style={{ objectFit: 'contain' }}
+              />
+            </Box>
             <Typography
               variant="h6"
               noWrap
@@ -267,7 +278,7 @@ const Navbar = () => {
           </Box>
           
           {/* Theme Toggle Button */}
-          <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
+          <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit" aria-label="Toggle light or dark theme">
             {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
           </IconButton>
         </Toolbar>
@@ -286,7 +297,7 @@ const Navbar = () => {
         pointerEvents: showScrollTop ? 'auto' : 'none',
         transition: 'all 0.3s ease',
         bgcolor: 'primary.main',
-        color: mode === 'light' ? 'white' : 'text.dark',
+        color: (theme) => theme.palette.mode === 'light' ? 'common.white' : 'text.primary',
         '&:hover': { bgcolor: 'primary.dark', transform: 'scale(1.1)' },
         zIndex: 1300,
       }}

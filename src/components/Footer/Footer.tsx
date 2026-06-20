@@ -8,9 +8,15 @@ import Link from '@mui/material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
+import { SxProps, Theme } from '@mui/material/styles';
+import Image from 'next/image';
 import { CONTACT_INFO, SITE_NAME } from '@/const/navigation';
 
-const Footer = () => {
+interface FooterProps {
+  sx?: SxProps<Theme>;
+}
+
+export const Footer = ({ sx }: FooterProps) => {
   return (
     <Box
       component="footer"
@@ -23,6 +29,7 @@ const Footer = () => {
             ? theme.palette.grey[100]
             : theme.palette.grey[900],
         borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+        ...sx,
       }}
     >
       <Container maxWidth="lg">
@@ -34,12 +41,14 @@ const Footer = () => {
         >
           <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-              <Box
-                component="img"
-                src="/logo.svg"
-                alt="Logo"
-                sx={{ height: 24, mr: 1 }}
-              />
+              <Box sx={{ position: 'relative', width: 24, height: 24, mr: 1 }}>
+                <Image
+                  src="/logo.svg"
+                  alt="Logo"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                />
+              </Box>
               <Typography variant="h6" color="primary" fontWeight={700}>
                 {SITE_NAME}
               </Typography>

@@ -1,0 +1,104 @@
+# Tech Stack
+- Framework: Next.js 16+ with App Router
+- Language: TypeScript (strict mode)
+- UI Library: Material UI (MUI) v5+
+- Styling: Emotion (via MUI sx prop and styled()) + vanilla CSS where appropriate
+- Sliders/Carousels: Swiper.js
+- Key paths: src/app/ (routes), src/components/ (reusable UI), src/theme.ts (MUI theme)
+
+---
+
+## DESIGN SYSTEM RULES
+
+### Theme (src/theme.ts)
+- All colors MUST be defined in the MUI theme — never hardcode hex values inline
+- Define a complete palette: primary, secondary, error, warning, success, info
+- Define custom tokens for: background.default, background.paper, text.primary, text.secondary
+- Support both light and dark mode via MUI's createTheme with palette.mode
+- Typography scale must cover: h1–h6, body1, body2, caption, overline, button
+- Define custom breakpoints if default MUI ones (xs/sm/md/lg/xl) are not sufficient
+- Export the theme as a default export and import it once at the root layout
+
+### Spacing & Layout
+- Use MUI's spacing system (theme.spacing()) for all margins and paddings — never use arbitrary px values
+- Use MUI Grid2 (not legacy Grid) for all responsive layouts
+- Maintain 8px base unit throughout
+- Max content width: 1200px, centered with mx: 'auto'
+
+### Typography
+- Pair a display/heading font with a body font (define both in theme.ts via MUI's typography.fontFamily)
+- Heading sizes must scale properly on mobile: use responsive typography (e.g., { xs: '1.5rem', md: '2.5rem' })
+- Line height for body text: 1.6–1.75
+
+### Colors
+- Minimum contrast ratio: 4.5:1 for body text, 3:1 for large text (WCAG AA)
+- Never use pure black (#000000) — use a near-black from the palette instead
+- Accent color should appear sparingly: CTA buttons, highlights, active states only
+
+---
+
+## COMPONENT RULES
+
+### Reusability
+- Every UI element used more than once MUST be extracted into src/components/
+- Component props must be typed with TypeScript interfaces — never use `any`
+- Components must accept and forward a `sx` prop for MUI style overrides when appropriate
+- Use composition over configuration: prefer small, focused components over large multi-purpose ones
+
+### Component File Structure
+Each component file should follow this pattern:
+```tsx
+// src/components/ProjectCard/ProjectCard.tsx
+interface ProjectCardProps { ... }
+export const ProjectCard = ({ ... }: ProjectCardProps) => { ... }
+export default ProjectCard
+```
+
+### Naming Conventions
+- Components: PascalCase (e.g., SkillBadge, ProjectCard, SectionHeader)
+- Files: match component name (ProjectCard.tsx)
+- Hooks: useXxx pattern (e.g., useScrollPosition)
+- Types/interfaces: PascalCase with suffix (e.g., ProjectCardProps, SkillItem)
+
+---
+
+## RESPONSIVE DESIGN RULES
+
+- Mobile-first approach: design for xs first, then scale up with MUI breakpoints
+- Every layout must be tested at: 375px, 768px, 1024px, 1440px
+- Use MUI's useMediaQuery hook for conditional logic — never use CSS media queries in JS
+- Images: always use Next.js <Image /> with proper width, height, and alt attributes
+- Touch targets: minimum 44x44px for all interactive elements on mobile
+- Navigation: must collapse to hamburger/drawer on mobile (sm breakpoint)
+
+---
+
+## TESTING RULES
+
+- Unit tests: use Jest + React Testing Library for all components in src/components/
+- Each component must have at minimum:
+  - A smoke test (renders without crashing)
+  - A test for each user-visible state (loading, empty, error, success)
+  - A test for key interactive behaviors (click, hover if relevant)
+- Accessibility: use jest-axe in tests to catch a11y violations automatically
+- File convention: ComponentName.test.tsx co-located with the component
+- Run tests with: npm test — all tests must pass before committing
+
+---
+
+## CODE QUALITY RULES
+
+- TypeScript: strict mode enabled, no `as any` casts, no implicit `any`
+- No inline styles (style={{...}}) — use sx prop or styled() from MUI/Emotion
+- No unused imports, variables, or components
+- All async operations must handle loading and error states
+- Use Next.js Server Components by default; add 'use client' only when necessary (event handlers, hooks, browser APIs)
+- Environment variables: prefix with NEXT_PUBLIC_ for client-side, never expose secrets
+
+---
+
+## FILE & IMPORT CONVENTIONS
+
+- Absolute imports via tsconfig paths: @/components/..., @/theme, @/types/...
+- Group imports: React → Next.js → MUI → local components → types → styles
+- Barrel exports: each component folder should have an index.ts

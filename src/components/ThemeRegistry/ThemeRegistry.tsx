@@ -19,15 +19,23 @@ const ColorModeContext = createContext<ColorModeContextType>({
 
 export const useColorMode = () => useContext(ColorModeContext);
 
-export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
+interface ThemeRegistryProps {
+  children: React.ReactNode;
+}
+
+export const ThemeRegistry = ({ children }: ThemeRegistryProps) => {
   const [mode, setMode] = useState<ColorMode>('light');
 
   useEffect(() => {
     const savedMode = localStorage.getItem('themeMode') as ColorMode | null;
     if (savedMode) {
-      setMode(savedMode);
+      setTimeout(() => {
+        setMode(savedMode);
+      }, 0);
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setMode('dark');
+      setTimeout(() => {
+        setMode('dark');
+      }, 0);
     }
   }, []);
 
@@ -57,4 +65,6 @@ export default function ThemeRegistry({ children }: { children: React.ReactNode 
       </AppRouterCacheProvider>
     </ColorModeContext.Provider>
   );
-}
+};
+
+export default ThemeRegistry;

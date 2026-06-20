@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -15,15 +14,14 @@ import Tab from '@mui/material/Tab';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import CloseIcon from '@mui/icons-material/Close';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import CollectionsIcon from '@mui/icons-material/Collections';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, SxProps, Theme } from '@mui/material/styles';
 import { PROJECTS_DATA } from '@/const/portfolio';
 import { alpha } from '@mui/material/styles';
+import Image from 'next/image';
+import ProjectCard from '@/components/ProjectCard';
+import { ProjectItem, ProjectPreviewImageCategory } from '@/types/portfolio';
 
 // Swiper components and modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -35,9 +33,13 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
 
-const Projects = () => {
+interface ProjectsProps {
+  sx?: SxProps<Theme>;
+}
+
+export const Projects = ({ sx }: ProjectsProps) => {
   const [open, setOpen] = useState(false);
-  const [activeProject, setActiveProject] = useState<any>(null);
+  const [activeProject, setActiveProject] = useState<ProjectItem | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -45,7 +47,7 @@ const Projects = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleOpenMedia = (project: any) => {
+  const handleOpenMedia = (project: ProjectItem) => {
     setActiveProject(project);
     setActiveTab(0);
   };
@@ -55,173 +57,13 @@ const Projects = () => {
     setActiveTab(newValue);
   };
 
-  // Update ProjectCard to use handleOpenMedia
-  const EnhancedProjectCard = ({ project, isModal = false }: { project: typeof PROJECTS_DATA[0], isModal?: boolean }) => (
-    <Box
-      height='100%'
-      display='flex'
-      flexDirection='column'
-      border={'1.5px solid'}
-      borderColor='divider'
-      borderRadius={2}
-      overflow='hidden'
-      bgcolor='background.default'
-      sx={{
-        transition: 'all 0.3s ease',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: (theme) => theme.palette.mode === 'light' 
-            ? '0 12px 32px -8px rgba(15,23,42,0.15)' 
-            : '0 12px 32px -8px rgba(0,0,0,0.5)',
-        },
-      }}
-    >
-      {/* Image / Placeholder */}
-      <Box
-        position='relative'
-        height={isModal ? 160 : 200}
-        bgcolor='primary.main'
-        overflow='hidden'
-        flexShrink={0}
-      >
-        {project.image ? (
-          <Box
-            component="img"
-            src={project.image}
-            alt={project.title}
-            width='100%'
-            height='100%'
-            sx={{ objectFit: 'cover' }}
-          />
-        ) : (
-          <Box
-            width='100%'
-            height='100%'
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
-            sx={{
-              background: 'linear-gradient(135deg,rgb(71, 73, 77) 0%, #334155 100%)',
-            }}
-          >
-            <Typography
-              fontSize='1rem'
-              color='rgba(255,255,255,0.15)'
-              fontWeight={800}
-              letterSpacing={2}
-            >
-              {'{ }'}
-            </Typography>
-          </Box>
-        )}
-
-        {/* Type badge */}
-        <Box
-          position='absolute'
-          top={12}
-          left={12}
-          bgcolor={'primary.main'}
-          color='white'
-          fontSize='0.6rem'
-          fontWeight={700}
-          px={1.2}
-          py={0.3}
-          borderRadius={1}
-          letterSpacing={0.5}
-          textTransform='uppercase'
-          boxShadow={'0 4px 12px rgba(0,0,0,0.1)'}
-        >
-          {project.type}
-        </Box>
-      </Box>
-
-      {/* Content */}
-      <Box p={{ xs: 2, md: isModal ? 2 : 3 }} display="flex" flexDirection="column" flexGrow={1} gap={1.5}>
-        <Typography variant={isModal ? "subtitle1" : "h6"} fontWeight={700} color="text.primary">
-          {project.title}
-        </Typography>
-
-        <Typography variant="body2" color="text.secondary" lineHeight={1.6} flexGrow={1} fontSize={isModal ? '0.8rem' : '0.875rem'}>
-          {project.description}
-        </Typography>
-
-        {/* Tags */}
-        <Box display="flex" flexWrap="wrap" gap={0.6}>
-          {project.tags.map((tag) => (
-            <Chip
-              key={tag}
-              label={tag}
-              size="small"
-              sx={{
-                fontSize: '0.65rem',
-                fontWeight: 600,
-                bgcolor: 'background.paper',
-                border: '1px solid',
-                borderColor: 'divider',
-                height: 20,
-              }}
-            />
-          ))}
-        </Box>
-
-        {/* Links */}
-        <Box display="flex" gap={0.5} mt={0.5}>
-          {project.github && (
-            <IconButton
-              component="a"
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              size="small"
-              sx={{
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' },
-              }}
-              aria-label="GitHub"
-            >
-              <GitHubIcon fontSize="small" />
-            </IconButton>
-          )}
-          {project.demo && project.demo !== '#' && (
-            <IconButton
-              component="a"
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              size="small"
-              sx={{
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' },
-              }}
-              aria-label="Demo site"
-            >
-              <OpenInNewIcon fontSize="small" />
-            </IconButton>
-          )}
-          {((project as any).previewImages || (project as any).previewImage) && (
-            <IconButton
-              onClick={() => handleOpenMedia(project)}
-              size="small"
-              sx={{
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' },
-              }}
-              aria-label={Array.isArray((project as any).previewImages) ? "View Album" : "View Preview"}
-            >
-              {Array.isArray((project as any).previewImages) ? (
-                <CollectionsIcon fontSize="small" />
-              ) : (
-                <VisibilityIcon fontSize="small" />
-              )}
-            </IconButton>
-          )}
-        </Box>
-      </Box>
-    </Box>
-  );
-
   return (
-    <Box id="projects" py={{ xs: 8, md: 15 }} bgcolor="background.paper">
+    <Box 
+      id="projects" 
+      py={{ xs: 8, md: 15 }} 
+      bgcolor="background.paper"
+      sx={{ ...sx }}
+    >
       <Container maxWidth="lg">
         {/* Section Heading */}
         <Box display="flex" justifyContent="space-between" alignItems="flex-end" mb={8}>
@@ -283,6 +125,27 @@ const Projects = () => {
             width: 32,
             borderRadius: 6,
             bgcolor: 'primary.main'
+          },
+          '& .swiper-button-next, & .swiper-button-prev': {
+            color: (theme) => `${theme.palette.primary.main} !important`,
+            background: (theme) => `${alpha(theme.palette.background.paper, 0.8)} !important`,
+            width: '50px !important',
+            height: '50px !important',
+            borderRadius: '50% !important',
+            border: '2px solid transparent',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            transition: 'all 0.3s ease',
+            padding: '10px',
+            zIndex: 10,
+            '&::after': { 
+              fontSize: '20px !important', 
+              fontWeight: '800 !important' 
+            },
+            '&:hover': {
+              background: (theme) => `${alpha(theme.palette.background.paper, 0.9)} !important`,
+              borderColor: 'divider',
+              transform: 'scale(1.1) !important',
+            }
           }
         }}>
           <Swiper
@@ -312,30 +175,11 @@ const Projects = () => {
             {PROJECTS_DATA.map((project) => (
               <SwiperSlide key={project.title} style={{ width: isMobile ? '300px' : '400px' }}>
                 <Box sx={{ height: '100%', px: 1 }}>
-                  <EnhancedProjectCard project={project} />
+                  <ProjectCard project={project} onOpenMedia={handleOpenMedia} />
                 </Box>
               </SwiperSlide>
             ))}
           </Swiper>
-          <style jsx global>{`
-            .swiper-button-next, .swiper-button-prev {
-              color: ${theme.palette.primary.main} !important;
-              background: ${alpha(theme.palette.background.paper, 0.8)};
-              width: 50px !important;
-              height: 50px !important;
-              border-radius: 50%;
-              border: 2px solid transparent;
-              &::after { font-size: 20px !important; font-weight: 800; }
-              box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-              transition: all 0.3s ease;
-              padding:10px;
-              &:hover { 
-                background: ${alpha(theme.palette.background.paper, 0.9)}; 
-                border-color: ${theme.palette.divider};
-                transform: scale(1.1);
-              }
-            }
-          `}</style>
         </Box>
 
         {/* Modal / Dialog for All Projects */}
@@ -362,7 +206,7 @@ const Projects = () => {
             <Grid container spacing={3}>
               {PROJECTS_DATA.map((project) => (
                 <Grid key={project.title} size={{ xs: 12, sm: 6 }}>
-                  <EnhancedProjectCard project={project} isModal />
+                  <ProjectCard project={project} isModal onOpenMedia={handleOpenMedia} />
                 </Grid>
               ))}
             </Grid>
@@ -434,7 +278,7 @@ const Projects = () => {
                         }
                       }}
                     >
-                      {activeProject.previewImages.map((category: any, idx: number) => (
+                      {(activeProject.previewImages as ProjectPreviewImageCategory[]).map((category, idx) => (
                         <Tab key={idx} label={category.category} />
                       ))}
                     </Tabs>
@@ -450,7 +294,8 @@ const Projects = () => {
                   sx={{
                     '&::-webkit-scrollbar': { width: '8px' },
                     '&::-webkit-scrollbar-thumb': { bgcolor: 'rgba(0,0,0,0.1)', borderRadius: '4px' }
-                  }}>
+                  }}
+                >
                   {Array.isArray(activeProject.previewImages) ? (
                     typeof activeProject.previewImages[0] === 'string' ? (
                       <ImageList
@@ -459,17 +304,20 @@ const Projects = () => {
                         gap={16}
                         sx={{ mb: 2 }}
                       >
-                        {activeProject.previewImages.map((url: string, index: number) => (
+                        {(activeProject.previewImages as string[]).map((url, index) => (
                           <ImageListItem key={index}>
-                            <Box
-                              component="img"
+                            <Image
                               src={url}
                               alt={`Preview ${index + 1}`}
-                              loading="lazy"
-                              width='100%'
-                              borderRadius={2}
-                              boxShadow={'0 4px 12px rgba(0,0,0,0.08)'}
-                              display='block'
+                              width={800}
+                              height={600}
+                              style={{
+                                width: '100%',
+                                height: 'auto',
+                                borderRadius: '8px',
+                                display: 'block',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+                              }}
                             />
                           </ImageListItem>
                         ))}
@@ -482,19 +330,21 @@ const Projects = () => {
                         gap={24}
                         sx={{ mb: 2 }}
                       >
-                        {activeProject.previewImages[activeTab]?.images.map((url: string, index: number) => (
+                        {(activeProject.previewImages as ProjectPreviewImageCategory[])[activeTab]?.images.map((url, index) => (
                           <ImageListItem key={index}>
-                            <Box
-                              component="img"
+                            <Image
                               src={url}
-                              alt={`${activeProject.previewImages[activeTab].category} Preview ${index + 1}`}
-                              loading="lazy"
-                              width='100%'
-                              borderRadius={2}
-                              boxShadow={'0 8px 24px rgba(0,0,0,0.12)'}
-                              display='block'
-                              border={'1px solid'}
-                              borderColor='divider'                      
+                              alt={`${(activeProject.previewImages as ProjectPreviewImageCategory[])[activeTab].category} Preview ${index + 1}`}
+                              width={800}
+                              height={600}
+                              style={{
+                                width: '100%',
+                                height: 'auto',
+                                borderRadius: '8px',
+                                display: 'block',
+                                border: `1px solid ${theme.palette.divider}`,
+                                boxShadow: '0 8px 24px rgba(0,0,0,0.12)'
+                              }}
                             />
                           </ImageListItem>
                         ))}
@@ -503,17 +353,26 @@ const Projects = () => {
                   ) : (
                     activeProject.previewImage ? (
                       <Box
-                        component="img"
-                        src={activeProject.previewImage}
-                        width='100%'
-                        height='auto'
-                        borderRadius={2}
-                        boxShadow={'0 4px 12px rgba(0,0,0,0.08)'}
-                        display='block'
-                        margin='auto'
-                        maxWidth='900px'
-                        sx={{ objectFit: 'contain', mb: 4 }}
-                      />
+                        sx={{
+                          position: 'relative',
+                          width: '100%',
+                          maxWidth: '900px',
+                          margin: 'auto',
+                          mb: 4,
+                          aspectRatio: '16/9'
+                        }}
+                      >
+                        <Image
+                          src={activeProject.previewImage}
+                          alt={`${activeProject.title} Main Preview`}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 900px"
+                          style={{
+                            objectFit: 'contain',
+                            borderRadius: '8px'
+                          }}
+                        />
+                      </Box>
                     ) : (
                       <Box py={4} textAlign='center'>
                         <Typography color="text.secondary">No preview available.</Typography>

@@ -1,11 +1,14 @@
 'use client';
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 
-// Extend the TypeText interface to include custom text colors
+// Extend MUI theme interfaces to support custom typography and background keys
 declare module '@mui/material/styles' {
   interface TypeText {
     dark?: string;
     light?: string;
+  }
+  interface TypeBackground {
+    neutral?: string;
   }
 }
 
@@ -21,6 +24,7 @@ export const getThemeOptions = (mode: 'light' | 'dark'): ThemeOptions => ({
     background: {
       default: mode === 'light' ? '#ffffff' : '#0f172a', // White : Slate 900
       paper: mode === 'light' ? '#f8fafc' : '#1e293b',   // Slate 50 : Slate 800
+      neutral: mode === 'light' ? '#f1f5f9' : '#334155', // Slate 100 : Slate 700
     },
     text: {
       primary: mode === 'light' ? '#0f172a' : '#f8fafc', // Slate 900 : Slate 50
