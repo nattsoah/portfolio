@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import DevicesIcon from '@mui/icons-material/Devices';
 import StorageIcon from '@mui/icons-material/Storage';
 import BuildIcon from '@mui/icons-material/Build';
+import { SxProps, Theme } from '@mui/material/styles';
 import { SKILLS_DATA } from '@/const/portfolio';
 import { SvgIconComponent } from '@mui/icons-material';
 import { alpha } from '@mui/material/styles';
@@ -18,9 +19,18 @@ const ICON_MAP: Record<string, SvgIconComponent> = {
   BuildIcon,
 };
 
-const Skills = () => {
+interface SkillsProps {
+  sx?: SxProps<Theme>;
+}
+
+export const Skills = ({ sx }: SkillsProps) => {
   return (
-    <Box id="skills" py={{ xs: 8, md: 15 }} bgcolor="background.default">
+    <Box 
+      id="skills" 
+      py={{ xs: 8, md: 15 }} 
+      bgcolor="background.default"
+      sx={{ ...sx }}
+    >
       <Container maxWidth="lg">
 
         {/* Section Heading */}
@@ -66,7 +76,7 @@ const Skills = () => {
                     >
                       {Icon && <Icon sx={{ color: (theme) => theme.palette.getContrastText(theme.palette.primary.main), fontSize: 22 }} />}
                     </Box>
-                    <Typography variant="h5" fontWeight={700} color="text.primary">
+                    <Typography variant="h3" fontWeight={700} color="text.primary" sx={{ fontSize: '1.25rem' }}>
                       {category.category}
                     </Typography>
                   </Box>

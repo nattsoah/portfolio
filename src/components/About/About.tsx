@@ -5,11 +5,21 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import { SxProps, Theme } from '@mui/material/styles';
 import { ABOUT_DATA } from '@/const/portfolio';
 
-const About = () => {
+interface AboutProps {
+  sx?: SxProps<Theme>;
+}
+
+export const About = ({ sx }: AboutProps) => {
   return (
-    <Box id="about" py={{ xs: 8, md: 15 }} bgcolor='background.paper'>
+    <Box 
+      id="about" 
+      py={{ xs: 8, md: 15 }} 
+      bgcolor='background.paper' 
+      sx={{ ...sx }}
+    >
       <Container maxWidth="lg">
         <Grid container spacing={8} alignItems="center">
           {/* Left: Text Content */}
