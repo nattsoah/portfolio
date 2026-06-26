@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -10,8 +11,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme, SxProps, Theme } from '@mui/material/styles';
 import { CERTIFICATES_DATA } from '@/const/portfolio';
-import Image from 'next/image';
 import CertificateCard from '@/components/CertificateCard';
+import Reveal from '@/components/Reveal';
+import SectionHeading from '@/components/SectionHeading';
 
 // Swiper components and modules
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -35,80 +37,52 @@ export const Certificates = ({ sx }: CertificatesProps) => {
   return (
     <Box
       id="certificates"
-      py={{ xs: 10, md: 15 }}
-      bgcolor='background.default'
+      py={{ xs: 12, md: 20 }}
+      bgcolor='transparent'
       position='relative'
       overflow='hidden'
       sx={{ ...sx }}
     >
-      {/* Subtle Background */}
-      <Box  
-        position='absolute'
-        top={0}
-        left={0}
-        width='100%'
-        height='100%'
-        zIndex={0}
-        sx={{
-          opacity: theme.palette.mode === 'light' ? 0.03 : 0.05,
-          backgroundImage: `radial-gradient(${theme.palette.text.primary} 0.5px, transparent 0.5px)`,
-          backgroundSize: '24px 24px',
-        }}
-      />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
         {/* Section Heading */}
         <Box mb={8}>
-          <Typography
-            variant="h2"
-            fontWeight={800}
-            position="relative"
-            display="inline-block"
-            sx={{
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                bottom: -10,
-                left: 0,
-                width: '60px',
-                height: '4px',
-                bgcolor: 'primary.main',
-              },
-            }}
-          >
-            Certificates
-          </Typography>
+          <SectionHeading title="Certificates" />
         </Box>
 
         {isMobile ? (
-          <Box mx={-2} sx={{
-            '& .swiper-pagination-bullet-active': {
-              background: `${theme.palette.primary.main} !important`,
-            }
-          }}>
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              spaceBetween={20}
-              slidesPerView={1}
-              centeredSlides={true}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3500, disableOnInteraction: false }}
-              style={{ paddingBottom: '40px' }}
-            >
-              {CERTIFICATES_DATA.map((cert, index) => (
-                <SwiperSlide key={index}>
-                  <Box sx={{ height: '100%', px: 1 }}>
-                    <CertificateCard cert={cert} onOpen={handleOpenImage} />
-                  </Box>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </Box>
+          <Reveal direction="up" delay={200} width="100%">
+            <Box mx={-2} sx={{
+              '& .swiper-pagination-bullet-active': {
+                background: `${theme.palette.primary.main} !important`,
+              }
+            }}>
+              <Swiper
+                modules={[Pagination, Autoplay]}
+                spaceBetween={20}
+                slidesPerView={1}
+                centeredSlides={true}
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 3500, disableOnInteraction: false }}
+                style={{ paddingBottom: '40px' }}
+              >
+                {CERTIFICATES_DATA.map((cert, index) => (
+                  <SwiperSlide key={index}>
+                    <Box sx={{ height: '100%', px: 1 }}>
+                      <CertificateCard cert={cert} onOpen={handleOpenImage} />
+                    </Box>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </Box>
+          </Reveal>
         ) : (
           <Grid container spacing={4}>
             {CERTIFICATES_DATA.map((cert, index) => (
               <Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
-                <CertificateCard cert={cert} onOpen={handleOpenImage} />
+                <Reveal direction="up" delay={200 + index * 100} width="100%">
+                  <CertificateCard cert={cert} onOpen={handleOpenImage} />
+                </Reveal>
               </Grid>
             ))}
           </Grid>
@@ -125,8 +99,8 @@ export const Certificates = ({ sx }: CertificatesProps) => {
               borderRadius: 4,
               bgcolor: 'background.paper',
               overflow: 'hidden',
-              boxShadow: theme.palette.mode === 'light' 
-                ? '0 32px 64px -16px rgba(0,0,0,0.3)' 
+              boxShadow: theme.palette.mode === 'light'
+                ? '0 32px 64px -16px rgba(0,0,0,0.3)'
                 : '0 32px 64px -16px rgba(0,0,0,0.7)'
             }
           }}
@@ -140,8 +114,8 @@ export const Certificates = ({ sx }: CertificatesProps) => {
                 right: 16,
                 bgcolor: 'background.default',
                 color: 'text.primary',
-                boxShadow: theme.palette.mode === 'light' 
-                  ? '0 4px 12px rgba(0,0,0,0.1)' 
+                boxShadow: theme.palette.mode === 'light'
+                  ? '0 4px 12px rgba(0,0,0,0.1)'
                   : '0 4px 12px rgba(0,0,0,0.4)',
                 '&:hover': { bgcolor: 'background.paper' },
                 zIndex: 10
@@ -150,9 +124,9 @@ export const Certificates = ({ sx }: CertificatesProps) => {
               <CloseIcon />
             </IconButton>
             {selectedImage && (
-              <Box 
-                position="relative" 
-                width="100%" 
+              <Box
+                position="relative"
+                width="100%"
                 height={{ xs: '50vh', md: '75vh' }}
                 sx={{ p: { xs: 2, md: 4 } }}
               >

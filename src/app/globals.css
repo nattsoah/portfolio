@@ -10,4 +10,64 @@ body {
   overflow-x: hidden;
 }
 
-/* MUI CssBaseline handles background and text colors */
+/* Hide default cursor on desktop hover-capable devices to allow custom cursor */
+@media (hover: hover) and (pointer: fine) {
+  body, 
+  a, 
+  button, 
+  [role="button"], 
+  input, 
+  select, 
+  textarea,
+  .swiper-slide, 
+  .swiper-button-next,
+  .swiper-button-prev,
+  .swiper-pagination-bullet,
+  .MuiButton-root, 
+  .MuiIconButton-root, 
+  .MuiTab-root, 
+  .MuiChip-root {
+    cursor: none !important;
+  }
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(127, 86, 255, 0.35);
+}
+
+/* Text Selection Glow */
+::selection {
+  background: rgba(127, 86, 255, 0.25);
+  color: inherit;
+}
+
+/* Global utility for text animations */
+@keyframes revealChar {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@keyframes revealWord {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

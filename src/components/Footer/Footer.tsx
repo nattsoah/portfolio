@@ -27,7 +27,7 @@ export const Footer = ({ sx }: FooterProps) => {
         backgroundColor: (theme) =>
           theme.palette.mode === 'light'
             ? theme.palette.grey[100]
-            : theme.palette.grey[900],
+            : theme.palette.divider,
         borderTop: (theme) => `1px solid ${theme.palette.divider}`,
         ...sx,
       }}
@@ -53,7 +53,7 @@ export const Footer = ({ sx }: FooterProps) => {
                 {SITE_NAME}
               </Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary" textAlign={{ xs:'center' , sm:'start'}}>
+            <Typography variant="body2" color="text.secondary" textAlign={{ xs: 'center', sm: 'start' }}>
               © {new Date().getFullYear()} All rights reserved.
             </Typography>
           </Box>
