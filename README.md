@@ -4,10 +4,13 @@ This is my personal portfolio website built with modern web technologies.
 
 ## 🚀 Tech Stack
 
-- **Framework:** [Next.js 15+](https://nextjs.org/) (App Router)
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+- **Library:** [React 19](https://react.dev/)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
-- **UI Library:** [MUI (Material UI)](https://mui.com/)
+- **UI Library:** [MUI v7 (Material UI)](https://mui.com/)
 - **Styling:** [Emotion](https://emotion.sh/)
+- **Slider/Carousel:** [Swiper 12](https://swiperjs.com/)
+- **Testing:** [Jest](https://jestjs.io/) & [React Testing Library](https://testing-library.com/) / [jest-axe](https://github.com/nickcolley/jest-axe) (Accessibility)
 
 ## 🛠️ Getting Started
 
@@ -33,6 +36,11 @@ This is my personal portfolio website built with modern web technologies.
    npm run dev
    ```
 
+4. Run unit and integration tests:
+   ```bash
+   npm run test
+   ```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## 📁 Project Structure
@@ -41,7 +49,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `src/components`: Reusable UI components.
 - `src/theme.ts`: Custom MUI theme configuration.
 - `src/app/globals.css`: Global CSS resets and variables.
-
-## 📄 License
-
-This project is open-sourced under the MIT License.
