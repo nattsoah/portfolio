@@ -19,16 +19,26 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
     <Box
       height='100%'
       position='relative'
-      bgcolor='background.default'
       borderRadius={4}
-      p={2}
-      border='1.5px solid'
+      p={3}
+      border='1px solid'
       borderColor='divider'
+      bgcolor={(theme) => theme.palette.mode === 'light'
+        ? alpha(theme.palette.background.paper, 0.4)
+        : alpha(theme.palette.background.neutral || theme.palette.background.paper, 0.25)}
       sx={{
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        backdropFilter: 'blur(20px)',
+        transition: 'all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1)',
+        boxShadow: (theme) => theme.palette.mode === 'light'
+          ? '0px 8px 24px -12px rgba(15,23,42,0.05)'
+          : 'none',
         '&:hover': {
-          boxShadow: (theme) => `0 30px 60px -12px ${alpha(theme.palette.primary.main, 0.15)}`,
-          '& .cert-img': { transform: 'scale(1.05)' },
+          transform: 'translateY(-6px) scale(1.01)',
+          boxShadow: (theme) => theme.palette.mode === 'light' 
+            ? '0 20px 40px -10px rgba(0,0,0,0.12)' 
+            : '0 20px 40px -10px rgba(0,0,0,0.6)',
+          borderColor: 'primary.main',
+          '& .cert-img': { transform: 'scale(1.08)' },
           '& .cert-action': { opacity: 1, transform: 'translateY(0)' }
         },
         ...sx
@@ -51,7 +61,7 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
                 position: 'relative',
                 width: '100%',
                 height: '100%',
-                transition: 'transform 0.6s ease',
+                transition: 'transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)',
               }}
             >
               <Image
@@ -72,15 +82,15 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
               left={0}
               width='100%'
               height='100%'
-              bgcolor={(theme) => alpha(theme.palette.primary.main, 0.4)}
+              bgcolor={(theme) => alpha(theme.palette.primary.main, 0.35)}
               display='flex'
               alignItems='center'
               justifyContent='center'
               sx={{
-                backdropFilter: 'blur(4px)',
+                backdropFilter: 'blur(6px)',
                 opacity: 0,
-                transform: 'translateY(10px)',
-                transition: 'all 0.3s ease',
+                transform: 'translateY(15px)',
+                transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
                 cursor: 'pointer'
               }}
             >
@@ -92,11 +102,12 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
                 color='primary.main'
                 display='flex'
                 alignItems='center'
-                gap={1}
+                gap={1.2}
                 fontWeight={700}
+                fontSize='0.85rem'
                 boxShadow={(theme) => theme.palette.mode === 'light' 
-                  ? '0 8px 16px rgba(0,0,0,0.2)' 
-                  : '0 8px 16px rgba(0,0,0,0.5)'}
+                  ? '0 10px 20px rgba(0,0,0,0.15)' 
+                  : '0 10px 20px rgba(0,0,0,0.4)'}
               >
                 <FullscreenIcon fontSize="small" />
                 View Full
@@ -126,15 +137,15 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
       </Box>
 
       {/* Content */}
-      <Box px={1} pb={1}>
-        <Box display="flex" alignItems="center" gap={1} mb={1.5}>
-          <VerifiedIcon sx={{ color: 'primary.main', fontSize: '1.2rem' }} />
+      <Box px={0.5} pb={0.5}>
+        <Box display="flex" alignItems="center" gap={1.2} mb={1.8}>
+          <VerifiedIcon sx={{ color: 'primary.main', fontSize: '1.25rem' }} />
           <Typography
             variant="caption"
             fontWeight={800}
             color="primary.main"
             textTransform='uppercase'
-            letterSpacing={1}
+            letterSpacing={1.2}
           >
             {cert.issuer}
           </Typography>
@@ -144,10 +155,13 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
           component="h3"
           variant="h6"
           fontWeight={800}
-          lineHeight={1.3}
-          mb={2}
+          lineHeight={1.4}
+          mb={2.5}
           fontSize='1.15rem'
           color='text.primary'
+          sx={{
+            letterSpacing: '-0.01em',
+          }}
         >
           {cert.title}
         </Typography>
@@ -160,10 +174,10 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
           borderTop={'1px dashed'}
           borderColor={'divider'}
         >
-          <Typography variant="caption" color="text.secondary" fontWeight={600}>
+          <Typography variant="caption" color="text.secondary" fontWeight={600} sx={{ textTransform: 'uppercase', fontSize: '0.7rem', letterSpacing: '0.05rem' }}>
             Issued on
           </Typography>
-          <Typography variant="caption" color="text.primary" fontWeight={700}>
+          <Typography variant="caption" color="text.primary" fontWeight={750} sx={{ fontSize: '0.75rem' }}>
             {cert.date}
           </Typography>
         </Box>

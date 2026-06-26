@@ -38,3 +38,24 @@ jest.mock('next/image', () => {
   MockImage.displayName = 'MockImage';
   return MockImage;
 });
+
+// Mock IntersectionObserver
+class MockIntersectionObserver {
+  constructor(public callback: IntersectionObserverCallback) {}
+  observe = jest.fn((target: Element) => {
+    // Automatically trigger the intersection callback with isIntersecting: true to render Reveal children in tests
+    this.callback(
+      [{ isIntersecting: true, target } as IntersectionObserverEntry],
+      this as any
+    );
+  });
+  disconnect = jest.fn();
+  unobserve = jest.fn();
+}
+
+Object.defineProperty(window, 'IntersectionObserver', {
+  writable: true,
+  configurable: true,
+  value: MockIntersectionObserver,
+});
+

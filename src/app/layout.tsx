@@ -6,6 +6,10 @@ import "./globals.css";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ThemeRegistry from '@/components/ThemeRegistry';
+import SmoothScroll from '@/components/SmoothScroll';
+import AmbientCanvas from '@/components/AmbientCanvas';
+import CustomCursor from '@/components/CustomCursor';
+import ScrollProgress from '@/components/ScrollProgress';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +23,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Portfolio",
-  description: "My personal portfolio",
+  description: "A cinematic, interactive portfolio of Natthariga Somit (Noey), Software Developer",
 };
 
 export default function RootLayout({
@@ -31,20 +35,27 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeRegistry>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh',
-            }}
-          >
-            <Navbar />
-            <Toolbar />
-            <Box component="main" sx={{ flexGrow: 1 }}>
-              {children}
+          <AmbientCanvas />
+          <CustomCursor />
+          <ScrollProgress />
+          <SmoothScroll>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '100vh',
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              <Navbar />
+              <Toolbar />
+              <Box component="main" sx={{ flexGrow: 1 }}>
+                {children}
+              </Box>
+              <Footer />
             </Box>
-            <Footer />
-          </Box>
+          </SmoothScroll>
         </ThemeRegistry>
       </body>
     </html>

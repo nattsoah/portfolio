@@ -1,18 +1,36 @@
 'use client';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { SxProps, Theme } from '@mui/material/styles';
-import Image from 'next/image';
 import { HERO_DATA } from '@/const/portfolio';
+import TypewriterText from '@/components/TypewriterText';
 
 interface HeroProps {
   sx?: SxProps<Theme>;
 }
 
 export const Hero = ({ sx }: HeroProps) => {
+  const [showScrollArrow, setShowScrollArrow] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowScrollArrow(false);
+      } else {
+        setShowScrollArrow(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const scrollToProjects = () => {
     const element = document.getElementById('projects');
     if (element) {
@@ -25,198 +43,236 @@ export const Hero = ({ sx }: HeroProps) => {
   return (
     <Box
       id="hero"
-      bgcolor='background.default'
-      pt={12}
-      pb={12}
       display='flex'
+      flexDirection='column'
       alignItems='center'
-      minHeight='70vh'
-      sx={{ overflow: 'hidden', ...sx }}
+      justifyContent='center'
+      minHeight='100vh'
+      position='relative'
+      sx={{
+        overflow: 'hidden',
+        bgcolor: 'transparent',
+        ...sx,
+      }}
     >
-      <Container maxWidth="lg">
-        <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="center" justifyContent="space-between">
-          <Box maxWidth={800}>
-            <Typography
-              variant="subtitle1"
-              color="primary.main"
-              fontWeight={600}
-              mb={2}
-              letterSpacing='0.1rem'
-              textTransform='uppercase'
-            >
-              {HERO_DATA.tagline}
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h1"
-              color="text.primary"
-              gutterBottom
-              fontWeight={800}
-              fontSize={{ xs: '2.5rem', md: '4rem' }}
-              lineHeight={1.1}
-            >
-              {HERO_DATA.title}
-            </Typography>
+      <Container maxWidth="md">
+        <Box
+          sx={{
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Tagline Split Words */}
+          <Typography
+            variant="subtitle1"
+            color="primary.main"
+            fontWeight={700}
+            mb={3}
+            letterSpacing='0.25rem'
+            textTransform='uppercase'
+            fontSize={{ xs: '0.8rem', md: '1rem' }}
+          >
+            {HERO_DATA.tagline.split(' ').map((word, index) => (
+              <Box
+                component="span"
+                key={index}
+                sx={{
+                  display: 'inline-block',
+                  opacity: 0,
+                  transform: 'translateY(15px)',
+                  animation: 'revealWord 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+                  animationDelay: `${index * 100}ms`,
+                  mr: 1,
+                  '@keyframes revealWord': {
+                    to: {
+                      opacity: 1,
+                      transform: 'translateY(0)',
+                    }
+                  }
+                }}
+              >
+                {word}
+              </Box>
+            ))}
+          </Typography>
+
+          {/* Name Split Letters */}
+          <Typography
+            component="h1"
+            variant="h1"
+            color="text.primary"
+            gutterBottom
+            fontWeight={900}
+            fontSize={{ xs: '3.5rem', sm: '5rem', md: '7rem' }}
+            lineHeight={1.05}
+            letterSpacing='-0.03em'
+            sx={{
+              mb: 4,
+              textShadow: (theme) => theme.palette.mode === 'dark' 
+                ? '0 0 40px rgba(148, 163, 184, 0.05)'
+                : 'none',
+            }}
+          >
+            {HERO_DATA.title.split('').map((char, index) => (
+              <Box
+                component="span"
+                key={index}
+                sx={{
+                  display: 'inline-block',
+                  opacity: 0,
+                  transform: 'translateY(120px) rotate(-15deg) scale(0.5)',
+                  filter: 'blur(8px)',
+                  animation: 'elasticBounceIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                  animationDelay: `${index * 45 + 300}ms`,
+                  '@keyframes elasticBounceIn': {
+                    '0%': {
+                      opacity: 0,
+                      transform: 'translateY(120px) rotate(-15deg) scale(0.5)',
+                      filter: 'blur(8px)',
+                    },
+                    '60%': {
+                      opacity: 0.8,
+                      transform: 'translateY(-15px) rotate(3deg) scale(1.05)',
+                      filter: 'blur(2px)',
+                    },
+                    '100%': {
+                      opacity: 1,
+                      transform: 'translateY(0) rotate(0) scale(1)',
+                      filter: 'blur(0)',
+                    }
+                  }
+                }}
+              >
+                {char === ' ' ? '\u00A0' : char}
+              </Box>
+            ))}
+          </Typography>
+
+          {/* Typewriter Text (Isolated Component) */}
+          <Box
+            sx={{
+              opacity: 0,
+              transform: 'translateY(20px)',
+              animation: 'revealText 1s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+              animationDelay: '650ms',
+              mb: 3.5,
+              minHeight: '42px',
+              '@keyframes revealText': {
+                to: {
+                  opacity: 1,
+                  transform: 'translateY(0)',
+                }
+              }
+            }}
+          >
+            <TypewriterText />
+          </Box>
+
+          {/* Subtitle Reveal */}
+          <Box
+            sx={{
+              opacity: 0,
+              transform: 'translateY(30px)',
+              animation: 'revealText 1s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+              animationDelay: '850ms',
+            }}
+          >
             <Typography
               variant="h5"
               color="text.secondary"
               paragraph
-              mt={3}
-              mb={3}
               fontWeight={400}
-              lineHeight={1.6}
-              maxWidth={600}
+              lineHeight={1.7}
+              fontSize={{ xs: '1.05rem', md: '1.25rem' }}
+              maxWidth={680}
+              sx={{ mb: 5 }}
             >
               {HERO_DATA.subtitle}
             </Typography>
-            <Stack
-              direction={{ xs: 'column', sm: 'row' }}
-              spacing={2}
-              mt={4}
-            >
-              <Button
-                variant="contained"
-                size="large"
-                onClick={scrollToProjects}
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  fontSize: '1rem',
-                }}
-              >
-                {HERO_DATA.ctaText}
-              </Button>
-            </Stack>
           </Box>
 
-          {/* Visual Section */}
+          {/* CTA Button Reveal */}
           <Box
-            display={{ xs: 'none', md: 'flex' }}
-            width={400}
-            height={400}
-            justifyContent="center"
-            alignItems="center"
-            position='relative'
+            sx={{
+              opacity: 0,
+              transform: 'translateY(20px)',
+              animation: 'revealText 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+              animationDelay: '1000ms',
+            }}
           >
-            {/* Background Dots */}
-            <Box
-              position='absolute'
-              top={-20}
-              right={-20}
-              width={100}
-              height={100}
-              zIndex={0}
+            <Button
+              variant="contained"
+              size="large"
+              onClick={scrollToProjects}
               sx={{
-                backgroundImage: (theme) => `radial-gradient(circle, ${theme.palette.text.primary} 1px, transparent 1px)`,
-                backgroundSize: '15px 15px',
-                opacity: (theme) => theme.palette.mode === 'light' ? 0.2 : 0.1,
-              }}
-            />
-
-            {/* Background animation */}
-            <Box
-              position='absolute'
-              bgcolor='primary.main'
-              borderRadius={'50% 50% 30% 70% / 50% 30% 70% 50%'}
-              zIndex={1}
-              sx={{
-                inset: 10,
-                opacity: 0.05,
-                animation: 'morph 12s ease-in-out infinite',
-                animationDelay: '2s',
-                '@keyframes morph': {
-                  '0%, 100%': { borderRadius: '50% 50% 30% 70% / 50% 30% 70% 50%' },
-                  '50%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
-                }
-              }}
-            />
-
-            {/* Main Visual Container */}
-            <Box
-              position='relative'
-              width={320}
-              height={320}
-              zIndex={2}
-              sx={{
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  inset: -12,
-                  bgcolor: 'primary.main',
-                  borderRadius: '50% 50% 30% 70% / 50% 30% 70% 50%',
-                  opacity: 0.1,
-                  animation: 'morph 10s ease-in-out infinite',
+                px: 5,
+                py: 2,
+                fontSize: '1rem',
+                borderRadius: '50px',
+                bgcolor: 'text.primary',
+                color: 'background.default',
+                textTransform: 'uppercase',
+                fontWeight: 700,
+                letterSpacing: '0.1rem',
+                border: '1.5px solid transparent',
+                boxShadow: (theme) => theme.palette.mode === 'light' 
+                  ? '0 10px 30px rgba(0,0,0,0.15)' 
+                  : '0 10px 30px rgba(255,255,255,0.05)',
+                transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
+                '&:hover': {
+                  bgcolor: 'transparent',
+                  borderColor: 'text.primary',
+                  color: 'text.primary',
+                  transform: 'scale(1.05) translateY(-3px)',
+                  boxShadow: (theme) => theme.palette.mode === 'light'
+                    ? '0 15px 40px rgba(0,0,0,0.2)'
+                    : '0 15px 40px rgba(255,255,255,0.1)',
                 },
-                '@keyframes morph': {
-                  '0%, 100%': { borderRadius: '50% 50% 30% 70% / 50% 30% 70% 50%' },
-                  '50%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
+                '&:active': {
+                  transform: 'scale(0.98) translateY(-1px)',
                 }
               }}
             >
-              <Box
-                position='relative'
-                width='100%'
-                height='100%'
-                sx={{
-                  borderRadius: '50% 50% 30% 70% / 50% 30% 70% 50%',
-                  border: (theme) => `4px solid ${theme.palette.background.default}`,
-                  boxShadow: (theme) => theme.palette.mode === 'light' 
-                    ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' 
-                    : '0 25px 50px -12px rgba(0, 0, 0, 0.6)',
-                  overflow: 'hidden',
-                  aspectRatio: '1',
-                  cursor: 'pointer',
-                  animation: 'morph 10s ease-in-out infinite',
-                  transition: 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                  '&:hover': {
-                    transform: 'scale(1.05) rotate(2deg)',
-                  },
-                }}
-              >
-                <Image
-                  src={HERO_DATA.profileImage}
-                  alt="Profile"
-                  fill
-                  sizes="320px"
-                  style={{ objectFit: 'cover' }}
-                  priority
-                />
-              </Box>
-            </Box>
-
-            {/* Floating Tech */}
-            <Box
-              position='absolute'
-              bottom={40}
-              left={20}
-              width={60}
-              height={60}
-              bgcolor='background.paper'
-              borderRadius='12px'
-              boxShadow={(theme) => theme.palette.mode === 'light' 
-                ? '0 10px 15px -3px rgba(0,0,0,0.1)' 
-                : '0 10px 15px -3px rgba(0,0,0,0.5)'}
-              display='flex'
-              alignItems='center'
-              justifyContent='center'
-              border={'1px solid'}
-              borderColor={'divider'}
-              zIndex={3}
-              sx={{
-                animation: 'float 6s ease-in-out infinite',
-                '@keyframes float': {
-                  '0%, 100%': { transform: 'translateY(0)' },
-                  '50%': { transform: 'translateY(-20px)' },
-                }
-              }}
-            >
-              <Typography variant="h6" fontWeight={900} color='primary.main'>
-                &lt;/&gt;
-              </Typography>
-            </Box>
+              {HERO_DATA.ctaText}
+            </Button>
           </Box>
-        </Stack>
+        </Box>
       </Container>
+
+      {/* Floating Scroll Down Arrow */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 100,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 1,
+          cursor: 'pointer',
+          opacity: showScrollArrow ? 0.6 : 0,
+          pointerEvents: showScrollArrow ? 'auto' : 'none',
+          transition: 'opacity 0.4s ease, transform 0.4s ease',
+          animation: showScrollArrow ? 'bounce 2s infinite 2000ms' : 'none',
+          '@keyframes bounce': {
+            '0%, 100%': { transform: 'translateX(-50%) translateY(0)' },
+            '50%': { transform: 'translateX(-50%) translateY(10px)' }
+          },
+          '&:hover': {
+            opacity: showScrollArrow ? 1 : 0,
+          }
+        }}
+        onClick={scrollToProjects}
+      >
+        <Typography variant="caption" sx={{ letterSpacing: '0.15rem', textTransform: 'uppercase', fontWeight: 600 }}>
+          Scroll
+        </Typography>
+        <ArrowDownwardIcon fontSize="small" />
+      </Box>
     </Box>
   );
 };

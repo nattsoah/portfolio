@@ -16,23 +16,23 @@ export const getThemeOptions = (mode: 'light' | 'dark'): ThemeOptions => ({
   palette: {
     mode,
     primary: {
-      main: mode === 'light' ? '#0f172a' : '#94a3b8', // Slate 900 : Slate 400
+      main: mode === 'light' ? '#4f46e5' : '#7f56ff', // Indigo : Electric Violet
     },
     secondary: {
-      main: mode === 'light' ? '#64748b' : '#94a3b8', // Slate 500 : Slate 400
+      main: mode === 'light' ? '#06b6d4' : '#00e5ff', // Cyan : Cyber Cyan
     },
     background: {
-      default: mode === 'light' ? '#ffffff' : '#0f172a', // White : Slate 900
-      paper: mode === 'light' ? '#f8fafc' : '#1e293b',   // Slate 50 : Slate 800
-      neutral: mode === 'light' ? '#f1f5f9' : '#334155', // Slate 100 : Slate 700
+      default: mode === 'light' ? '#f5f7fa' : '#070814', // Light gray-white : Obsidian Black
+      paper: mode === 'light' ? '#ffffff' : '#121324',   // White : Space Slate
+      neutral: mode === 'light' ? '#f1f5f9' : '#1e1f38', // Light neutral : Space dark
     },
     text: {
-      primary: mode === 'light' ? '#0f172a' : '#f8fafc', // Slate 900 : Slate 50
-      secondary: mode === 'light' ? '#475569' : '#94a3b8', // Slate 600 : Slate 400
-      dark: '#0f172a',
+      primary: mode === 'light' ? '#070814' : '#f8fafc', // Charcoal : Pure Slate
+      secondary: mode === 'light' ? '#475569' : '#94a3b8',
+      dark: '#070814',
       light: '#f8fafc',
     },
-    divider: mode === 'light' ? '#e2e8f0' : '#334155', // Slate 200 : Slate 700
+    divider: mode === 'light' ? '#e2e8f0' : 'rgba(255, 255, 255, 0.05)',
   },
   typography: {
     fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
@@ -60,14 +60,15 @@ export const getThemeOptions = (mode: 'light' | 'dark'): ThemeOptions => ({
     },
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 12,
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          padding: '8px 20px',
+          padding: '10px 24px',
           boxShadow: 'none',
+          borderRadius: '30px',
           '&:hover': {
             boxShadow: 'none',
           },
@@ -81,15 +82,15 @@ export const getThemeOptions = (mode: 'light' | 'dark'): ThemeOptions => ({
       styleOverrides: {
         root: {
           border: '1px solid',
-          borderColor: mode === 'light' ? '#e2e8f0' : '#334155',
+          borderColor: mode === 'light' ? 'rgba(15, 23, 42, 0.08)' : 'rgba(255, 255, 255, 0.05)',
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(15, 23, 42, 0.8)',
-          color: mode === 'light' ? '#0f172a' : '#f8fafc',
+          backgroundColor: 'transparent',
+          color: mode === 'light' ? '#070814' : '#f8fafc',
         }
       }
     }

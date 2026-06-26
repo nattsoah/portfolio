@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -16,11 +17,10 @@ import ImageListItem from '@mui/material/ImageListItem';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme, SxProps, Theme } from '@mui/material/styles';
+import { useTheme, SxProps, Theme, alpha } from '@mui/material/styles';
 import { PROJECTS_DATA } from '@/const/portfolio';
-import { alpha } from '@mui/material/styles';
-import Image from 'next/image';
 import ProjectCard from '@/components/ProjectCard';
+import SectionHeading from '@/components/SectionHeading';
 import { ProjectItem, ProjectPreviewImageCategory } from '@/types/portfolio';
 
 // Swiper components and modules
@@ -32,6 +32,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-coverflow';
+
+import Reveal from '@/components/Reveal';
 
 interface ProjectsProps {
   sx?: SxProps<Theme>;
@@ -58,129 +60,134 @@ export const Projects = ({ sx }: ProjectsProps) => {
   };
 
   return (
-    <Box 
-      id="projects" 
-      py={{ xs: 8, md: 15 }} 
-      bgcolor="background.paper"
-      sx={{ ...sx }}
+    <Box
+      id="projects"
+      py={{ xs: 12, md: 20 }}
+      bgcolor="transparent"
+      position="relative"
+      sx={{
+        overflow: 'hidden',
+        ...sx
+      }}
     >
-      <Container maxWidth="lg">
+
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
         {/* Section Heading */}
         <Box display="flex" justifyContent="space-between" alignItems="flex-end" mb={8}>
-          <Typography
-            variant="h2"
-            fontWeight={800}
-            position="relative"
-            display="inline-block"
-            sx={{
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                bottom: -10,
-                left: 0,
-                width: '60px',
-                height: '4px',
-                bgcolor: 'primary.main',
-              },
-            }}
-          >
-            Projects
-          </Typography>
+          <SectionHeading title="Projects" />
 
-          <Button
-            variant="text"
-            endIcon={<ArrowForwardIcon />}
-            onClick={handleOpen}
-            sx={{
-              fontWeight: 700,
-              color: 'primary.main',
-              '&:hover': { bgcolor: (theme) => alpha(theme.palette.primary.main, 0.05) }
-            }}
-          >
-            View All
-          </Button>
+          <Reveal direction="up" delay={200}>
+            <Button
+              variant="text"
+              endIcon={<ArrowForwardIcon />}
+              onClick={handleOpen}
+              sx={{
+                fontWeight: 700,
+                color: 'primary.main',
+                px: 2.5,
+                py: 1,
+                borderRadius: '20px',
+                border: '1.2px solid',
+                borderColor: 'divider',
+                bgcolor: (theme) => theme.palette.mode === 'light'
+                  ? alpha(theme.palette.background.paper, 0.5)
+                  : alpha(theme.palette.background.neutral || theme.palette.background.paper, 0.2),
+                backdropFilter: 'blur(10px)',
+                '&:hover': {
+                  borderColor: 'primary.main',
+                  bgcolor: (theme) => alpha(theme.palette.primary.main, 0.05),
+                  transform: 'translateY(-2px)'
+                },
+                transition: 'all 0.3s ease',
+              }}
+            >
+              View All
+            </Button>
+          </Reveal>
         </Box>
 
-        <Box sx={{ 
-          mx: { xs: -2, md: 0 },
-          pb: 8,
-          '& .swiper-slide': {
-            transition: 'all 0.5s ease',
-            opacity: 0.5,
-            transform: 'scale(0.85)',
-          },
-          '& .swiper-slide-active': {
-            opacity: 1,
-            transform: 'scale(1.05)',
-            zIndex: 10
-          },
-          '& .swiper-pagination-bullet': {
-            width: 12,
-            height: 12,
-            bgcolor: 'divider',
-            opacity: 1,
-            transition: 'all 0.3s ease'
-          },
-          '& .swiper-pagination-bullet-active': {
-            width: 32,
-            borderRadius: 6,
-            bgcolor: 'primary.main'
-          },
-          '& .swiper-button-next, & .swiper-button-prev': {
-            color: (theme) => `${theme.palette.primary.main} !important`,
-            background: (theme) => `${alpha(theme.palette.background.paper, 0.8)} !important`,
-            width: '50px !important',
-            height: '50px !important',
-            borderRadius: '50% !important',
-            border: '2px solid transparent',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            transition: 'all 0.3s ease',
-            padding: '10px',
-            zIndex: 10,
-            '&::after': { 
-              fontSize: '20px !important', 
-              fontWeight: '800 !important' 
+        <Reveal direction="up" delay={300} width="100%">
+          <Box sx={{
+            mx: { xs: -2, md: 0 },
+            pb: 8,
+            '& .swiper-slide': {
+              transition: 'all 0.5s ease',
+              opacity: 0.5,
+              transform: 'scale(0.85)',
             },
-            '&:hover': {
-              background: (theme) => `${alpha(theme.palette.background.paper, 0.9)} !important`,
-              borderColor: 'divider',
-              transform: 'scale(1.1) !important',
+            '& .swiper-slide-active': {
+              opacity: 1,
+              transform: 'scale(1.05)',
+              zIndex: 10
+            },
+            '& .swiper-pagination-bullet': {
+              width: 12,
+              height: 12,
+              bgcolor: 'divider',
+              opacity: 1,
+              transition: 'all 0.3s ease'
+            },
+            '& .swiper-pagination-bullet-active': {
+              width: 32,
+              borderRadius: 6,
+              bgcolor: 'primary.main'
+            },
+            '& .swiper-button-next, & .swiper-button-prev': {
+              color: (theme) => `${theme.palette.primary.main} !important`,
+              background: (theme) => `${alpha(theme.palette.background.paper, 0.8)} !important`,
+              width: '50px !important',
+              height: '50px !important',
+              borderRadius: '50% !important',
+              border: '2px solid transparent',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              transition: 'all 0.3s ease',
+              padding: '10px',
+              zIndex: 10,
+              '&::after': {
+                fontSize: '20px !important',
+                fontWeight: '800 !important'
+              },
+              '&:hover': {
+                background: (theme) => `${alpha(theme.palette.background.paper, 0.9)} !important`,
+                borderColor: 'divider',
+                transform: 'scale(1.1) !important',
+              }
             }
-          }
-        }}>
-          <Swiper
-            modules={[Pagination, Autoplay, Navigation, EffectCoverflow]}
-            effect="coverflow"
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView={'auto'}
-            loop={true}
-            autoplay={{ delay: 3500, disableOnInteraction: false }}
-            coverflowEffect={{
-              rotate: 0,
-              stretch: 0,
-              depth: 100,
-              modifier: 2.5,
-              slideShadows: false,
-            }}
-            pagination={{ clickable: true }}
-            navigation={!isMobile}
-            breakpoints={{
-              320: { slidesPerView: 1.1, spaceBetween: 20 },
-              640: { slidesPerView: 1.3, spaceBetween: 30 },
-              1024: { slidesPerView: 2, spaceBetween: 40 }
-            }}
-            style={{ padding: '40px 0' }}
-          >
-            {PROJECTS_DATA.map((project) => (
-              <SwiperSlide key={project.title} style={{ width: isMobile ? '300px' : '400px' }}>
-                <Box sx={{ height: '100%', px: 1 }}>
-                  <ProjectCard project={project} onOpenMedia={handleOpenMedia} />
-                </Box>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Box>
+          }}>
+            <Swiper
+              modules={[Pagination, Autoplay, Navigation, EffectCoverflow]}
+              effect="coverflow"
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={'auto'}
+              loop={true}
+              autoplay={{ delay: 3500, disableOnInteraction: false }}
+              coverflowEffect={{
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2.5,
+                slideShadows: false,
+              }}
+              pagination={{ clickable: true }}
+              navigation={!isMobile}
+              breakpoints={{
+                320: { slidesPerView: 1.1, spaceBetween: 20 },
+                640: { slidesPerView: 1.3, spaceBetween: 30 },
+                1024: { slidesPerView: 2, spaceBetween: 40 }
+              }}
+              style={{ padding: '40px 0' }}
+            >
+              {PROJECTS_DATA.map((project) => (
+                <SwiperSlide key={project.title} style={{ width: isMobile ? '300px' : '400px' }}>
+                  <Box sx={{ height: '100%', px: 1 }}>
+                    <ProjectCard project={project} onOpenMedia={handleOpenMedia} />
+                  </Box>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </Box>
+        </Reveal>
 
         {/* Modal / Dialog for All Projects */}
         <Dialog
@@ -256,9 +263,9 @@ export const Projects = ({ sx }: ProjectsProps) => {
               <Box p={{ xs: 2, md: 4 }} bgcolor='background.paper'>
                 {activeProject.previewImages && activeProject.previewImages.length > 0 && typeof activeProject.previewImages[0] === 'object' && (
                   <Box mb={3} borderBottom={1} borderColor="divider">
-                    <Tabs 
-                      value={activeTab} 
-                      onChange={handleTabChange} 
+                    <Tabs
+                      value={activeTab}
+                      onChange={handleTabChange}
                       variant="scrollable"
                       scrollButtons="auto"
                       sx={{
