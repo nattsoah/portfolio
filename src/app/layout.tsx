@@ -10,6 +10,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import AmbientCanvas from '@/components/AmbientCanvas';
 import CustomCursor from '@/components/CustomCursor';
 import ScrollProgress from '@/components/ScrollProgress';
+import PageLoader from '@/components/PageLoader';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeRegistry>
+          <PageLoader />
           <AmbientCanvas />
           <CustomCursor />
           <ScrollProgress />

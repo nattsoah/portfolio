@@ -15,7 +15,9 @@ export const CustomCursor = () => {
   const ringCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    setMounted(true);
+    setTimeout(() => {
+      setMounted(true);
+    }, 0);
 
     const onMouseMove = (e: MouseEvent) => {
       mouseCoords.current.x = e.clientX;
@@ -103,6 +105,12 @@ export const CustomCursor = () => {
         width: '100%',
         height: '100%',
         zIndex: 9999,
+        '@media (pointer: coarse)': {
+          display: 'none !important',
+        },
+        '@media (hover: none)': {
+          display: 'none !important',
+        },
       }}
     >
       {/* Small Dot */}

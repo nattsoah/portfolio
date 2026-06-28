@@ -1,4 +1,5 @@
 'use client';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
@@ -15,6 +16,8 @@ export interface CertificateCardProps {
 }
 
 export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <Box
       height='100%'
@@ -69,9 +72,36 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
                 alt={cert.title}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                style={{ objectFit: 'cover' }}
+                onLoad={() => setImageLoaded(true)}
+                style={{ 
+                  objectFit: 'cover',
+                  opacity: imageLoaded ? 1 : 0,
+                  transition: 'opacity 0.4s ease-in-out',
+                }}
               />
             </Box>
+
+            {!imageLoaded && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: (theme) => theme.palette.mode === 'light'
+                    ? 'linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%)'
+                    : 'linear-gradient(90deg, #121324 25%, #1e1f38 50%, #121324 75%)',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 1.5s infinite linear',
+                  '@keyframes shimmer': {
+                    '0%': { backgroundPosition: '-200% 0' },
+                    '100%': { backgroundPosition: '200% 0' }
+                  },
+                  zIndex: 2,
+                }}
+              />
+            )}
 
             {/* Overlay */}
             <Box
@@ -91,7 +121,8 @@ export const CertificateCard = ({ cert, onOpen, sx }: CertificateCardProps) => {
                 opacity: 0,
                 transform: 'translateY(15px)',
                 transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                zIndex: 3 // Ensure it sits above shimmer if loaded or on hover
               }}
             >
               <Box

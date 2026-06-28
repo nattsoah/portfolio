@@ -106,12 +106,12 @@ export const Hero = ({ sx }: HeroProps) => {
             color="text.primary"
             gutterBottom
             fontWeight={900}
-            fontSize={{ xs: '3.5rem', sm: '5rem', md: '7rem' }}
+            fontSize={{ xs: '3.5rem', sm: '5rem', md: '6.5rem' }}
             lineHeight={1.05}
             letterSpacing='-0.03em'
             sx={{
               mb: 4,
-              textShadow: (theme) => theme.palette.mode === 'dark' 
+              textShadow: (theme) => theme.palette.mode === 'dark'
                 ? '0 0 40px rgba(148, 163, 184, 0.05)'
                 : 'none',
             }}
@@ -218,8 +218,8 @@ export const Hero = ({ sx }: HeroProps) => {
                 fontWeight: 700,
                 letterSpacing: '0.1rem',
                 border: '1.5px solid transparent',
-                boxShadow: (theme) => theme.palette.mode === 'light' 
-                  ? '0 10px 30px rgba(0,0,0,0.15)' 
+                boxShadow: (theme) => theme.palette.mode === 'light'
+                  ? '0 10px 30px rgba(0,0,0,0.15)'
                   : '0 10px 30px rgba(255,255,255,0.05)',
                 transition: 'all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)',
                 '&:hover': {

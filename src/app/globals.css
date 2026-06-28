@@ -12,20 +12,21 @@ body {
 
 /* Hide default cursor on desktop hover-capable devices to allow custom cursor */
 @media (hover: hover) and (pointer: fine) {
-  body, 
-  a, 
-  button, 
-  [role="button"], 
-  input, 
-  select, 
+
+  body,
+  a,
+  button,
+  [role="button"],
+  input,
+  select,
   textarea,
-  .swiper-slide, 
+  .swiper-slide,
   .swiper-button-next,
   .swiper-button-prev,
   .swiper-pagination-bullet,
-  .MuiButton-root, 
-  .MuiIconButton-root, 
-  .MuiTab-root, 
+  .MuiButton-root,
+  .MuiIconButton-root,
+  .MuiTab-root,
   .MuiChip-root {
     cursor: none !important;
   }
@@ -70,4 +71,9 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Pause all page animations while loader is active */
+body.is-loading * {
+  animation-play-state: paused !important;
 }

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -23,14 +23,72 @@ import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+const CertificatesSkeleton = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const shimmerBase = {
+    background: theme.palette.mode === 'light'
+      ? 'linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%)'
+      : 'linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%)',
+    backgroundSize: '200% 100%',
+    animation: 'shimmer 1.5s infinite linear',
+    '@keyframes shimmer': {
+      '0%': { backgroundPosition: '-200% 0' },
+      '100%': { backgroundPosition: '200% 0' }
+    },
+  };
+
+  return (
+    <Grid container spacing={4}>
+      {[1, 2, 3].slice(0, isMobile ? 1 : 3).map((i) => (
+        <Grid key={i} size={{ xs: 12, sm: 6, md: 4 }}>
+          <Box
+            sx={{
+              p: 3,
+              height: '340px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              borderRadius: 4,
+              bgcolor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.02)',
+              backdropFilter: 'blur(20px)',
+              border: `1px solid ${theme.palette.divider}`,
+            }}
+          >
+            {/* Image Frame */}
+            <Box sx={{ aspectRatio: '4/3', width: '100%', borderRadius: '8px', ...shimmerBase }} />
+            {/* Issuer */}
+            <Box sx={{ width: '40%', height: '14px', mt: 1, borderRadius: '4px', ...shimmerBase }} />
+            {/* Title */}
+            <Box sx={{ width: '80%', height: '20px', borderRadius: '4px', ...shimmerBase }} />
+            {/* Divider & Date */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 'auto', pt: 2, borderTop: `1px dashed ${theme.palette.divider}` }}>
+              <Box sx={{ width: '50px', height: '12px', borderRadius: '4px', ...shimmerBase }} />
+              <Box sx={{ width: '70px', height: '12px', borderRadius: '4px', ...shimmerBase }} />
+            </Box>
+          </Box>
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
+
 interface CertificatesProps {
   sx?: SxProps<Theme>;
 }
 
 export const Certificates = ({ sx }: CertificatesProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleOpenImage = (img: string) => setSelectedImage(img);
 
@@ -50,7 +108,9 @@ export const Certificates = ({ sx }: CertificatesProps) => {
           <SectionHeading title="Certificates" />
         </Box>
 
-        {isMobile ? (
+        {isLoading ? (
+          <CertificatesSkeleton />
+        ) : isMobile ? (
           <Reveal direction="up" delay={200} width="100%">
             <Box mx={-2} sx={{
               '& .swiper-pagination-bullet-active': {

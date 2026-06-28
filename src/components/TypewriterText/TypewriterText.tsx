@@ -45,7 +45,7 @@ export const TypewriterText = () => {
       variant="h3"
       component="p"
       sx={{
-        fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.25rem' },
+        fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2rem' },
         color: 'primary.main',
         fontFamily: 'var(--font-geist-mono), monospace',
         letterSpacing: '-0.02em',
