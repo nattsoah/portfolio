@@ -38,6 +38,7 @@ export interface ProjectItem {
   tags: string[];
   github?: string;
   demo?: string;
+  design?: string;
   previewImages?: string[] | ProjectPreviewImageCategory[];
   previewImage?: string;
 }

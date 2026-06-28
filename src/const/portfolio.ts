@@ -26,19 +26,19 @@ export const SKILLS_DATA = [
     category: 'Frontend',
     icon: 'DevicesIcon',
     description: 'Creating responsive, interactive, and user-friendly interfaces using modern frameworks and libraries.',
-    skills: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Material UI', 'Tailwind CSS', 'Chakra UI', 'Bootstrap']
+    skills: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Material UI', 'Tailwind CSS', 'Chakra UI', 'Bootstrap']
   },
   {
-    category: 'Backend',
+    category: 'Backend & Database',
     icon: 'StorageIcon',
     description: 'Building robust server-side applications, APIs, and managing databases to power web experiences.',
-    skills: ['Node.js', 'Express.js', 'PHP', 'Laravel', 'Python', 'Java']
+    skills: ['Node.js', 'Express.js', 'Laravel', 'PHP', 'Python', 'Java', 'SQL']
   },
   {
     category: 'Tools & Others',
     icon: 'BuildIcon',
     description: 'Utilizing essential development tools and platforms to streamline workflow and ensure quality.',
-    skills: ['Git', 'GitHub', 'Figma', 'WordPress', 'Vercel', 'Claude Code', 'Gemini CLI']
+    skills: ['Git', 'GitHub', 'CI/CD', 'Docker', 'Postman', 'Vercel', 'Figma', 'Adobe Photoshop', 'AI Tools']
   }
 ];
 
@@ -51,6 +51,26 @@ export const PROJECTS_DATA = [
     tags: ['Next.js', 'TypeScript', 'Material-UI', 'Swiper'],
     github: 'https://github.com/nattsoah/portfolio',
     demo: '#',
+  },
+  {
+    title: 'Mini Event Registration Dashboard',
+    type: 'CMS',
+    description: 'A full-stack Event Management Dashboard featuring secure authentication, CSV export, and responsive UI/UX.',
+    image: '/images/mini-event-dashboard.png',
+    tags: ['Next.js', 'Laravel', 'TypeScript', 'SQLite', 'TailwindCSS'],
+    github: 'https://github.com/nattsoah/mini-event-registration-dashboard',
+    demo: '#',
+    previewImages: [
+      {
+        category: 'Admin',
+        images: [
+          '/images/mini-event-dashboard/med-login.png',
+          '/images/mini-event-dashboard/med-dashboard.png',
+          '/images/mini-event-dashboard/med-add-registration.png',
+          '/images/mini-event-dashboard/med-registrations.png',
+        ]
+      }
+    ],
   },
   {
     title: 'Fake-Hatari',
@@ -183,6 +203,7 @@ export const PROJECTS_DATA = [
     description: 'Mini Project: A condo booking system built with Laravel.',
     image: '/images/selena/selena-login.png',
     tags: ['Laravel', 'PHP', 'MySQL', 'Bootstrap'],
+    design: 'https://www.figma.com/design/xoNYe2qDi1qwtf9gZ5OzhX/SelenaCondo?node-id=240-549&t=BlOt4yqCNMr2Xtzv-1',
     previewImages: [
       {
         category: 'User',
@@ -210,7 +231,24 @@ export const PROJECTS_DATA = [
     tags: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'],
     github: 'https://github.com/natthariga/E-books',
     demo: 'https://natthariga.github.io/E-books/',
-  }
+    design: 'https://www.figma.com/design/yhlvC3ZjwjgTOy9HQDg01N/Web-Design?node-id=0-1&t=JYTuNhiUv7VqgeYL-1'
+  },
+  {
+    title: 'Khakom Cafe POS',
+    type: 'POS',
+    description: 'Designed the user experience and interface for a POS system for a café at Khon Kaen University, focusing on efficient sales and order workflows.',
+    image: '/images/khakom.png',
+    tags: ['UX/UI', 'Figma', 'POS System'],
+    design: 'https://www.figma.com/design/T8veNCR29MJhfyZ9JNWDJV/eiei-team-library?node-id=512-2&t=S5FyhCwoVU5eNaEr-1'
+  },
+  {
+    title: 'Somitra Application',
+    type: 'Social Community',
+    description: 'Designed the UX/UI for a social community app focused on environmental conservation.',
+    image: '/images/somitra.png',
+    tags: ['UX/UI', 'Figma', 'Social Community'],
+    design: 'https://www.figma.com/design/KTWiNdRF956iG5GPhN63E5/Untitled?node-id=29-32&t=RrGTVb6W3mXu9iwS-1'
+  },
 ];
 
 export const CERTIFICATES_DATA = [

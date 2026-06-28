@@ -12,6 +12,7 @@ import { SxProps, Theme } from '@mui/material/styles';
 import Image from 'next/image';
 import { ProjectItem } from '@/types/portfolio';
 import { alpha } from '@mui/material/styles';
+import { DesignServices } from '@mui/icons-material';
 
 export interface ProjectCardProps {
   project: ProjectItem;
@@ -21,27 +22,8 @@ export interface ProjectCardProps {
 }
 
 export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: ProjectCardProps) => {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isModal) return; // Simple cards in grid modal
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    
-    // Mouse coords relative to card
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Normalized position from center (-0.5 to 0.5)
-    const normX = (x / rect.width) - 0.5;
-    const normY = (y / rect.height) - 0.5;
-    
-    setTilt({
-      x: normY * -12, // Rotate around X axis (tilt vertical)
-      y: normX * 12,  // Rotate around Y axis (tilt horizontal)
-    });
-  };
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -49,12 +31,10 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    setTilt({ x: 0, y: 0 });
   };
 
   return (
     <Box
-      onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       sx={{
@@ -70,17 +50,15 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
           : alpha(theme.palette.background.neutral || theme.palette.background.paper, 0.25),
         backdropFilter: 'blur(20px)',
         transformOrigin: 'center',
-        transform: !isModal && isHovered
-          ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(-6px) scale3d(1.01, 1.01, 1.01)`
-          : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)',
+        transform: 'none',
         boxShadow: (theme) => isHovered
-          ? (theme.palette.mode === 'light' 
-              ? '0px 20px 40px -10px rgba(15,23,42,0.12)' 
-              : '0px 20px 40px -10px rgba(0,0,0,0.6)')
+          ? (theme.palette.mode === 'light'
+            ? '0px 20px 40px -10px rgba(15,23,42,0.12)'
+            : '0px 20px 40px -10px rgba(0,0,0,0.6)')
           : (theme.palette.mode === 'light'
-              ? '0px 8px 24px -12px rgba(15,23,42,0.05)'
-              : 'none'),
-        transition: isHovered ? 'transform 0.08s ease-out, box-shadow 0.3s ease' : 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, background-color 0.5s ease',
+            ? '0px 8px 24px -12px rgba(15,23,42,0.05)'
+            : 'none'),
+        transition: 'box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease',
         ...sx,
       }}
     >
@@ -88,7 +66,6 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
       <Box
         position='relative'
         height={isModal ? 160 : 220}
-        bgcolor='primary.main'
         overflow='hidden'
         flexShrink={0}
       >
@@ -106,15 +83,36 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
               alt={project.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              style={{ 
+              onLoad={() => setImageLoaded(true)}
+              style={{
                 objectFit: 'cover',
-                transform: !isModal && isHovered
-                  ? `scale(1.12) translate3d(${tilt.y * -0.6}px, ${tilt.x * 0.6}px, 0)`
-                  : 'scale(1.05) translate3d(0, 0, 0)',
-                transition: isHovered ? 'transform 0.08s ease-out' : 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)',
+                opacity: imageLoaded ? 1 : 0,
+                transition: 'opacity 0.4s ease-in-out',
+                transform: 'none',
               }}
               priority={!isModal}
             />
+            {!imageLoaded && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: (theme) => theme.palette.mode === 'light'
+                    ? 'linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%)'
+                    : 'linear-gradient(90deg, #121324 25%, #1e1f38 50%, #121324 75%)',
+                  backgroundSize: '200% 100%',
+                  animation: 'shimmer 1.5s infinite linear',
+                  '@keyframes shimmer': {
+                    '0%': { backgroundPosition: '-200% 0' },
+                    '100%': { backgroundPosition: '200% 0' }
+                  },
+                  zIndex: 2,
+                }}
+              />
+            )}
           </Box>
         ) : (
           <Box
@@ -153,8 +151,8 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
           borderRadius={1.5}
           letterSpacing={0.8}
           textTransform='uppercase'
-          boxShadow={(theme) => theme.palette.mode === 'light' 
-            ? '0 4px 12px rgba(0,0,0,0.15)' 
+          boxShadow={(theme) => theme.palette.mode === 'light'
+            ? '0 4px 12px rgba(0,0,0,0.15)'
             : '0 4px 12px rgba(0,0,0,0.5)'}
         >
           {project.type}
@@ -163,10 +161,10 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
 
       {/* Content */}
       <Box p={{ xs: 2.5, md: isModal ? 2.5 : 3.5 }} display="flex" flexDirection="column" flexGrow={1} gap={2}>
-        <Typography 
-          component="h3" 
-          variant={isModal ? "subtitle1" : "h6"} 
-          fontWeight={800} 
+        <Typography
+          component="h3"
+          variant={isModal ? "subtitle1" : "h6"}
+          fontWeight={800}
           color="text.primary"
           sx={{
             fontSize: isModal ? '1rem' : '1.2rem',
@@ -176,11 +174,11 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
           {project.title}
         </Typography>
 
-        <Typography 
-          variant="body2" 
-          color="text.secondary" 
-          lineHeight={1.7} 
-          flexGrow={1} 
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          lineHeight={1.7}
+          flexGrow={1}
           fontSize={isModal ? '0.8rem' : '0.9rem'}
         >
           {project.description}
@@ -225,7 +223,7 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
                 width: 32,
                 height: 32,
                 transition: 'all 0.3s ease',
-                '&:hover': { 
+                '&:hover': {
                   color: 'primary.main',
                   bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
                   transform: 'translateY(-2px)',
@@ -249,7 +247,7 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
                 width: 32,
                 height: 32,
                 transition: 'all 0.3s ease',
-                '&:hover': { 
+                '&:hover': {
                   color: 'primary.main',
                   bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
                   transform: 'translateY(-2px)',
@@ -258,6 +256,30 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
               aria-label={`${project.title} Live Demo`}
             >
               <OpenInNewIcon fontSize="small" />
+            </IconButton>
+          )}
+          {project.design && project.design !== '#' && (
+            <IconButton
+              component="a"
+              href={project.design}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="small"
+              sx={{
+                color: 'text.secondary',
+                bgcolor: 'divider',
+                width: 32,
+                height: 32,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  color: 'primary.main',
+                  bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
+                  transform: 'translateY(-2px)',
+                },
+              }}
+              aria-label={`${project.title} Live Demo`}
+            >
+              <DesignServices fontSize="small" />
             </IconButton>
           )}
           {(project.previewImages || project.previewImage) && onOpenMedia && (
@@ -270,7 +292,7 @@ export const ProjectCard = ({ project, isModal = false, onOpenMedia, sx }: Proje
                 width: 32,
                 height: 32,
                 transition: 'all 0.3s ease',
-                '&:hover': { 
+                '&:hover': {
                   color: 'primary.main',
                   bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
                   transform: 'translateY(-2px)',
